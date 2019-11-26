@@ -1,0 +1,16 @@
+#RentAreas Config
+
+#   Debug ( max / full / Default:normal / stop )
+Debug: normal
+
+#   MySQL Settings
+mysql:
+  host: localhost
+  port: 3306
+  database: Citizenship
+  username: root
+  password: password
+
+#   貸借エリア看板と判断するキー文字
+SignSetKey: "RentArea"
+

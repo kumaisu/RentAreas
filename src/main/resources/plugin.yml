@@ -1,0 +1,22 @@
+main: com.mycompany.rentareas.RentAreas
+name: RentAreas
+version: 0.1.0
+description: Rental WG Area Manager plugin
+author: Kumaisu
+database: true
+api-version: 1.14
+commands:
+    rent:
+        description: Rental Areas Command
+        permission: rentareas.modify
+        default: op
+        permission-message: You do not have permission.
+permissions:
+    rentareas.admin:
+        description: Admin Command permissions
+        permission-message: You do not have permission.
+        default: op
+    rentareas.console:
+        description: Console Command permissions
+        permission-message: You do not have permission.
+        default: op
