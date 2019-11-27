@@ -18,15 +18,15 @@ public class Database {
     public static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 
     //  テーブル
-    //      region : carchar(20)    WorldGuard Region Name
-    //      uuid : varchar(36)	player uuid
-    //      name : varchar(20)	player name
+    //      region : varchar(20)    WorldGuard Region Name
+    //      uuid : varchar(36)      player uuid
+    //      name : varchar(20)      player name
     //      create : DATETIME       Rent Date
     //      logout : DATETIME       player Logout Date
 
     public static String region = "";
     public static String uuidstr = "";
     public static String name = "Unknown";
-    public static Date create;
+    public static Date entry;
     public static Date logout;
 }

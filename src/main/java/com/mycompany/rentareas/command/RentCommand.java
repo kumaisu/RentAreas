@@ -5,10 +5,7 @@
  */
 package com.mycompany.rentareas.command;
 
-import java.util.UUID;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,6 +14,7 @@ import com.mycompany.rentareas.RentAreas;
 import com.mycompany.rentareas.config.Config;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.ConfigManager;
+import com.mycompany.rentareas.database.RentData;
 
 /**
  *
@@ -56,17 +54,41 @@ public class RentCommand implements CommandExecutor {
                     ConfigManager.Status( player );
                     return true;
                 case "list":
+                    RentData.ListRegions( player );
                     return true;
+                case "info":
+                    if ( RentData.RegionInfo( player, args[1] ) ) {
+                        return true;
+                    } else {
+                        Tools.Prt( player, ChatColor.RED + "No Information.", Config.programCode );
+                        return false;
+                    }
                 case "entry":
-                    return true;
+                    if ( !RentData.GetRegion( args[1] ) ) {
+                        RentData.AddSQL( args[1] );
+                        RentData.RegionInfo( player, args[1] );
+                        return true;
+                    } else {
+                        Tools.Prt( player, ChatColor.YELLOW + "Already Entry to Region.", Config.programCode );
+                        return false;
+                    }
+                case "remove":
+                    if ( RentData.GetRegion( args[1] ) ) {
+                        RentData.DelSQL( args[1] );
+                        return true;
+                    } else {
+                        Tools.Prt( player, ChatColor.RED + "No Entry Region.", Config.programCode );
+                        return false;
+                    }
                 case "expired":
                     return true;
                 default:
             }
         }
-        Tools.Prt( player, "\n=== Rental Areas Command Help ===", Config.programCode );
+        Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
         Tools.Prt( player, "/rent entry [RegionName]", Config.programCode );
         Tools.Prt( player, "/rent list", Config.programCode );
+        Tools.Prt( player, "/rent inro [RegionName]", Config.programCode );
         Tools.Prt( player, "/rent expired", Config.programCode );
         Tools.Prt( player, "/rent stauts", Config.programCode );
         return false;

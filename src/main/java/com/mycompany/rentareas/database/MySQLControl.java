@@ -87,17 +87,17 @@ public class MySQLControl {
     public static void TableUpdate() {
         try ( Connection con = Database.dataSource.getConnection() ) {
             //  テーブルの作成
-            //          region : carchar(20)    WorldGuard Region Name
+            //          region : varchar(20)    WorldGuard Region Name
             //		uuid : varchar(36)	player uuid
             //		name : varchar(20)	player name
-            //          create : DATETIME       Rent Date
+            //          entry : DATETIME        Rent Date
             //          logout : DATETIME       player Logout Date
             //  存在すれば、無視される
-            String sql = "CREATE TABLE IF NOT EXISTS area( "
-                    + "region carchar(20), "
+            String sql = "CREATE TABLE IF NOT EXISTS area ( "
+                    + "region varchar(20), "
                     + "uuid varchar(36), "
                     + "name varchar(20), "
-                    + "create DATETIME, "
+                    + "entry DATETIME, "
                     + "logout DATETIME );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
