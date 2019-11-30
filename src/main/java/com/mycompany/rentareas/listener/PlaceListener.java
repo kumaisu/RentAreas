@@ -45,11 +45,14 @@ public class PlaceListener implements Listener {
             Tools.Prt( ChatColor.YELLOW + "Old Sign " + i + " : " + event.getLine( i ), Tools.consoleMode.max, Config.programCode );
         }
 
+        Tools.Prt( event.getLine( 3 ) + " : " + Config.SignSetKey, Tools.consoleMode.max, Config.programCode );
         if ( event.getLine( 3 ).equals( Config.SignSetKey ) ) {
             //  event.setLine( 0, "WorldGuard Region name" );         
-            event.setLine( 1, "for Rent" );         //  Rental Player name area
+            event.setLine( 1, ChatColor.BLUE + "for Rent" );         //  Rental Player name area
             //  event.setLine( 2, "Free Message Area" );
             event.setLine( 3, ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" );
+        } else {
+            Tools.Prt( ChatColor.GOLD + "No Sign set KEY", Config.programCode );
         }
     }
 }

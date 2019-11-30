@@ -18,14 +18,17 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import com.mycompany.rentareas.Absorption;
+import com.mycompany.rentareas.config.Config;
 
 /**
  *
  * @author sugichan
  */
 public class InvMenu {
+
     public static Map< UUID, Inventory > inv;
     public static Map< UUID, Location > loc;
+    public static Map< UUID, String > reg;
 
     /**
      * 貸借に関するインベントリメニュー表示 
@@ -33,35 +36,28 @@ public class InvMenu {
      * @param player
     */
     public static void printMenu( Player player ) {
-        int slot = 54;
+        if ( player == null ) return;
+        int slot = 27;
 
         Inventory TempInv;
-        TempInv = Bukkit.createInventory( null, slot, "Rental Menu" );
+        TempInv = Bukkit.createInventory( null, slot, Config.MenuString );
 
-            //  Remove Icon 作成
-            ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
-            ItemMeta DelMeta = Bukkit.getItemFactory().getItemMeta( Material.BARRIER );
-            DelMeta.setDisplayName( ChatColor.WHITE + "Remove" );
-            List<String> DelLore = Arrays.asList( ChatColor.RED + "いいね看板を", ChatColor.RED + "削除します" );
-            DelMeta.setLore( DelLore );
-            DelIcon.setItemMeta( DelMeta );
-            TempInv.setItem( slot - 1, DelIcon );
+        //  Remove Icon 作成
+        ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
+        ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
+        UpMeta.setDisplayName( ChatColor.WHITE + "Update" );
+        List<String> UpLore = Arrays.asList( ChatColor.AQUA + "Update Sign", ChatColor.AQUA + "Rewrite Infomation" );
+        UpMeta.setLore( UpLore );
+        UpIcon.setItemMeta( UpMeta );
+        TempInv.setItem( 16, UpIcon );
 
-            //  Remove Icon 作成
-            ItemStack UpIcon = new ItemStack( Material.END_CRYSTAL, 1 );
-            ItemMeta UpMeta = Bukkit.getItemFactory().getItemMeta( Material.END_CRYSTAL );
-            UpMeta.setDisplayName( ChatColor.WHITE + "Update" );
-            List<String> UpLore = Arrays.asList( ChatColor.AQUA + "Update Sign", ChatColor.AQUA + "Rewrite Infomation" );
-            UpMeta.setLore( UpLore );
-            UpIcon.setItemMeta( UpMeta );
-            TempInv.setItem( slot - 2, UpIcon );
+        //  借用
+        TempInv.setItem( 11, Absorption.OK() );
 
-        //  イイネ解除
-        TempInv.setItem( slot - 8, Absorption.Unlike() );
+        //  退去
+        TempInv.setItem( 13, Absorption.NG() );
 
-        //  イイネ解除
-        TempInv.setItem( slot - 9, Absorption.Like() );
-
+        inv.put( player.getUniqueId(), TempInv );
         player.openInventory( TempInv );
     }
 }

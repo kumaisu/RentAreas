@@ -142,6 +142,7 @@ public class RentData {
      * 
      * @param player
      * @param region 
+     * @return  
      */
     public static boolean RegionInfo( Player player, String region ) {
         if ( GetRegion( region ) ) {
@@ -169,13 +170,23 @@ public class RentData {
      */
     public static void SetPlayerToSQL( Player player, String region ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "UPDATE area SET "
-                + "uuid = '" + player.getUniqueId().toString() + "' AND "
-                + "name = '" + player.getName() + "' "
-                + "WHERE region = '" + region + "';";
+            //  uuid
+            String sql =
+                "UPDATE area SET " + 
+                ( ( player == null ) ? "uuid = ''" : "uuid = '" + player.getUniqueId().toString() + "'" ) +
+                " WHERE region = '" + region + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
+
+            //  name
+            sql = "UPDATE area SET " +
+                ( ( player == null ) ? "name = ''" : "name = '" + player.getName() + "'" ) +
+                " WHERE region = '" + region + "';";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+
             con.close();
             Tools.Prt( "Set Player Date to SQL Success.", Tools.consoleMode.max, programCode );
         } catch ( SQLException e ) {

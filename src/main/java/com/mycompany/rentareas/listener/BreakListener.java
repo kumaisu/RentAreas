@@ -41,15 +41,13 @@ public class BreakListener implements Listener {
         Material material = block.getType();
         Tools.Prt( "Material = " + material.name(), Tools.consoleMode.max, Config.programCode );
 
-        if ( !material.name().contains( "SIGN" ) ) { return; }
+        if ( !material.name().contains( "SIGN" ) ) return;
+        if ( player.hasPermission( "rentareas.admin" ) ) return;
 
         //  DBからデータ取得
         Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLoc = " + block.getLocation().toString(), Tools.consoleMode.max, Config.programCode );
         Sign sign = ( Sign ) block.getState();
-        if (
-            ( !player.hasPermission( "rentareas.admin" ) ) &&
-            sign.getLine( 3 ).equals( ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" ) )
-        {
+        if ( sign.getLine( 3 ).equals( ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" ) ) {
             Tools.Prt( ChatColor.GOLD + "get [" + ChatColor.AQUA + "RentArea"+ ChatColor.GOLD + "] Sign Break Cancelled", Tools.consoleMode.max, Config.programCode );
             event.setCancelled( true );
         }

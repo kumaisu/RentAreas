@@ -6,10 +6,11 @@
 package com.mycompany.rentareas;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.DyeColor;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import com.mycompany.rentareas.config.Config;
 
 /**
  *
@@ -17,8 +18,7 @@ import org.bukkit.material.Wool;
  */
 public class Absorption {
     
-    public static ItemStack Like() {
-        //  イイネ解除
+    public static ItemStack OK() {
         ItemStack Like;
         try {
             Like = new ItemStack( Material.valueOf( "BLUE_WOOL" ), 1 );
@@ -26,13 +26,12 @@ public class Absorption {
             Like = new Wool( DyeColor.BLUE ).toItemStack( 1 );
         }
         ItemMeta lm = Like.getItemMeta();
-        lm.setDisplayName( "借りる" );
+        lm.setDisplayName( Config.RentIn );
         Like.setItemMeta( lm );
         return Like;
     }
 
-    public static ItemStack Unlike() {
-        //  イイネ解除
+    public static ItemStack NG() {
         ItemStack Unlike;
         try {
             Unlike = new ItemStack( Material.valueOf( "RED_WOOL" ), 1 );
@@ -40,7 +39,7 @@ public class Absorption {
             Unlike = new Wool( DyeColor.RED ).toItemStack( 1 );
         }
         ItemMeta um = Unlike.getItemMeta();
-        um.setDisplayName( "退去する" );
+        um.setDisplayName( Config.RentOut );
         Unlike.setItemMeta( um );
         return Unlike;
     }

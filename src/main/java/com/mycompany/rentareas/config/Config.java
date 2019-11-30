@@ -20,4 +20,8 @@ public class Config {
     public static String password = "";
 
     public static String SignSetKey;
+
+    public static String MenuString;
+    public static String RentIn;
+    public static String RentOut;
 }

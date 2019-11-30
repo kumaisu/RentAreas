@@ -87,8 +87,9 @@ public class RentCommand implements CommandExecutor {
         }
         Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
         Tools.Prt( player, "/rent entry [RegionName]", Config.programCode );
+        Tools.Prt( player, "/rent remove [RegionName]", Config.programCode );
         Tools.Prt( player, "/rent list", Config.programCode );
-        Tools.Prt( player, "/rent inro [RegionName]", Config.programCode );
+        Tools.Prt( player, "/rent info [RegionName]", Config.programCode );
         Tools.Prt( player, "/rent expired", Config.programCode );
         Tools.Prt( player, "/rent stauts", Config.programCode );
         return false;

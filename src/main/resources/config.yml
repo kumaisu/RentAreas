@@ -14,3 +14,8 @@ mysql:
 #   貸借エリア看板と判断するキー文字
 SignSetKey: "RentArea"
 
+#   看板クリック時のメニュータイトル
+Menu: "§a無料マンション　メニュー"
+
+RentIn: "借りる"
+RentOut: "退去する"

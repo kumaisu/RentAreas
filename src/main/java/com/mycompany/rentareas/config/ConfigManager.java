@@ -45,11 +45,17 @@ public class ConfigManager {
             Tools.Prt( ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", programCode );
         }
 
-        Config.host     = config.getString( "mysql.host" );
-        Config.port     = config.getString( "mysql.port" );
-        Config.database = config.getString( "mysql.database" );
-        Config.username = config.getString( "mysql.username" );
-        Config.password = config.getString( "mysql.password" );
+        Config.host         = config.getString( "mysql.host" );
+        Config.port         = config.getString( "mysql.port" );
+        Config.database     = config.getString( "mysql.database" );
+        Config.username     = config.getString( "mysql.username" );
+        Config.password     = config.getString( "mysql.password" );
+
+        Config.SignSetKey   = config.getString( "SignSetKey" );
+
+        Config.MenuString   = config.getString( "Menu", "Rental Menu" );
+        Config.RentIn       = config.getString( "RentIn" );
+        Config.RentOut      = config.getString( "RentOut" );
     }
 
     public static void Status( Player p ) {
@@ -61,6 +67,10 @@ public class ConfigManager {
             Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username, programCode );
             Tools.Prt( p, ChatColor.WHITE + "DB Password  : " + ChatColor.YELLOW + Config.password, programCode );
         }
+        Tools.Prt( p, ChatColor.WHITE + "Sign Set Key : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Menu String  : " + ChatColor.YELLOW + Config.MenuString, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Rental IN    : " + ChatColor.YELLOW + Config.RentIn, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Rental Out   : " + ChatColor.YELLOW + Config.RentOut, programCode );
         Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
     }
 }

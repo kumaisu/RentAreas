@@ -5,10 +5,12 @@
  */
 package com.mycompany.rentareas;
 
+import java.util.HashMap;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.mycompany.rentareas.config.ConfigManager;
 import com.mycompany.rentareas.database.MySQLControl;
 import com.mycompany.rentareas.command.RentCommand;
+import com.mycompany.rentareas.control.InvMenu;
 import com.mycompany.rentareas.listener.BreakListener;
 import com.mycompany.rentareas.listener.ClickListener;
 import com.mycompany.rentareas.listener.PlaceListener;
@@ -30,6 +32,9 @@ public class RentAreas extends JavaPlugin {
         new ClickListener( this );
         new InventoryListener( this );
         getCommand( "rent" ).setExecutor( new RentCommand( this ) );
+        InvMenu.inv = new HashMap<>();
+        InvMenu.loc = new HashMap<>();
+        InvMenu.reg = new HashMap<>();
     }
 
     @Override
