@@ -5,6 +5,8 @@
  */
 package com.mycompany.rentareas.command;
 
+import java.util.UUID;
+import org.bukkit.block.Sign;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,13 +14,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import com.mycompany.rentareas.RentAreas;
 import com.mycompany.rentareas.config.Config;
-import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.ConfigManager;
 import com.mycompany.rentareas.control.RentControl;
 import com.mycompany.rentareas.database.DiffDate;
 import com.mycompany.rentareas.database.RentData;
-import java.util.UUID;
-import org.bukkit.block.Sign;
+import com.mycompany.kumaisulibraries.Tools;
 
 /**
  *
@@ -69,6 +69,22 @@ public class RentCommand implements CommandExecutor {
 
         if ( args.length > 0 ) {
             switch( args[0].toLowerCase() ) {
+                case "reload":
+                    ConfigManager.load();
+                    Tools.Prt( player, ( "Rental Areas Config Reloaded." ), Config.programCode );
+                    return true;
+                case "console":
+                    if ( !Tools.setDebug( args[1], Config.programCode ) ) {
+                        Tools.entryDebugFlag( Config.programCode, Tools.consoleMode.normal );
+                        Tools.Prt( player, ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", Config.programCode );
+                    }
+                    Tools.Prt( player,
+                        ChatColor.GREEN + "System Debug Mode is [ " +
+                        ChatColor.RED + Tools.consoleFlag.get( Config.programCode ).toString() +
+                        ChatColor.GREEN + " ]",
+                        Config.programCode
+                    );
+                    return true;
                 case "status":
                     ConfigManager.Status( player );
                     return true;
@@ -120,7 +136,10 @@ public class RentCommand implements CommandExecutor {
                         }
                         return true;
                     }
+                    break;
                 default:
+                    Tools.Prt( player, "Unknown Command [" + args[0] + "]", Config.programCode );
+                    break;
             }
         }
         Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
@@ -129,9 +148,11 @@ public class RentCommand implements CommandExecutor {
         Tools.Prt( player, "/rent list", Config.programCode );
         Tools.Prt( player, "/rent info [region]", Config.programCode );
         Tools.Prt( player, "/rent expired", Config.programCode );
-        Tools.Prt( player, "/rent stauts", Config.programCode );
         Tools.Prt( player, "/rent defne [region] [player]", commandLabel);
         Tools.Prt( player, "/rent undefne [region]", commandLabel);
+        Tools.Prt( player, "/rent stauts", Config.programCode );
+        Tools.Prt( player, "/rent reload", Config.programCode );
+        Tools.Prt( player, "/rent console [max,full,normal,stop]", Config.programCode );
         return false;
     }
 }

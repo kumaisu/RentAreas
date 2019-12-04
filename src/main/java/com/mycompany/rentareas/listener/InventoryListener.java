@@ -17,6 +17,8 @@ import com.mycompany.rentareas.config.Config;
 import com.mycompany.rentareas.control.InvMenu;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.control.RentControl;
+import com.mycompany.rentareas.database.Database;
+import com.mycompany.rentareas.database.RentData;
 
 /**
  *
@@ -50,6 +52,12 @@ public class InventoryListener implements Listener {
             switch( event.getCurrentItem().getType().name() ) {
                 case "END_CRYSTAL":     //  予備メニュー
                     event.getWhoClicked().closeInventory();
+                    if ( RentData.GetRegion( region ) ) {
+                        sign.setLine( 0, Database.region );
+                        sign.setLine( 1, Database.name );
+                        sign.setLine( 3, ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" );
+                        sign.update();
+                    }
                     break;
                 case "BLUE_WOOL":
                     event.getWhoClicked().closeInventory();
