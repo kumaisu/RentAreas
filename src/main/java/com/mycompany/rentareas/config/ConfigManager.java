@@ -56,6 +56,7 @@ public class ConfigManager {
         Config.MenuString   = config.getString( "Menu", "Rental Menu" );
         Config.RentIn       = config.getString( "RentIn" );
         Config.RentOut      = config.getString( "RentOut" );
+        Config.Expired      = config.getInt( "RentExpired", 0 );
     }
 
     public static void Status( Player p ) {

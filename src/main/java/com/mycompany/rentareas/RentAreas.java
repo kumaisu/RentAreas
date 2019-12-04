@@ -15,6 +15,7 @@ import com.mycompany.rentareas.listener.BreakListener;
 import com.mycompany.rentareas.listener.ClickListener;
 import com.mycompany.rentareas.listener.PlaceListener;
 import com.mycompany.rentareas.listener.InventoryListener;
+import com.mycompany.rentareas.listener.PlayerListener;
 
 /**
  *
@@ -31,6 +32,7 @@ public class RentAreas extends JavaPlugin {
         new BreakListener( this );
         new ClickListener( this );
         new InventoryListener( this );
+        new PlayerListener( this );
         getCommand( "rent" ).setExecutor( new RentCommand( this ) );
         InvMenu.inv = new HashMap<>();
         InvMenu.loc = new HashMap<>();

@@ -24,4 +24,5 @@ public class Config {
     public static String MenuString;
     public static String RentIn;
     public static String RentOut;
+    public static int Expired;
 }

@@ -14,7 +14,11 @@ import com.mycompany.rentareas.RentAreas;
 import com.mycompany.rentareas.config.Config;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.ConfigManager;
+import com.mycompany.rentareas.control.RentControl;
+import com.mycompany.rentareas.database.DiffDate;
 import com.mycompany.rentareas.database.RentData;
+import java.util.UUID;
+import org.bukkit.block.Sign;
 
 /**
  *
@@ -48,6 +52,21 @@ public class RentCommand implements CommandExecutor {
             return false;
         }
 
+        String region = "";
+        String username = "";
+        UUID uuid = null;
+        Sign sign = null;
+
+        if ( args.length > 1 ) {
+            region = args[1];
+            sign.setLine( 0, region );
+        }
+        if ( args.length > 2 ) {
+            username = args[2];
+            uuid = Tools.getUUID( username );
+            sign.setLine( 1, username );
+        }
+
         if ( args.length > 0 ) {
             switch( args[0].toLowerCase() ) {
                 case "status":
@@ -57,41 +76,62 @@ public class RentCommand implements CommandExecutor {
                     RentData.ListRegions( player );
                     return true;
                 case "info":
-                    if ( RentData.RegionInfo( player, args[1] ) ) {
+                    if ( RentData.RegionInfo( player, region ) ) {
                         return true;
                     } else {
                         Tools.Prt( player, ChatColor.RED + "No Information.", Config.programCode );
                         return false;
                     }
                 case "entry":
-                    if ( !RentData.GetRegion( args[1] ) ) {
-                        RentData.AddSQL( args[1] );
-                        RentData.RegionInfo( player, args[1] );
+                    if ( !RentData.GetRegion( region ) ) {
+                        RentData.AddSQL( region );
+                        RentData.RegionInfo( player, region );
                         return true;
                     } else {
                         Tools.Prt( player, ChatColor.YELLOW + "Already Entry to Region.", Config.programCode );
                         return false;
                     }
                 case "remove":
-                    if ( RentData.GetRegion( args[1] ) ) {
-                        RentData.DelSQL( args[1] );
+                    if ( RentData.GetRegion( region ) ) {
+                        RentData.DelSQL( region );
                         return true;
                     } else {
                         Tools.Prt( player, ChatColor.RED + "No Entry Region.", Config.programCode );
                         return false;
                     }
                 case "expired":
+                    DiffDate.List( player );
                     return true;
+                case "define":
+                    if ( ( !region.equals( "" ) ) && ( uuid != null ) ) {
+                        Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
+                        if ( !RentControl.Rental( uuid, username, sign, true ) ) {
+                            Tools.Prt( player, ChatColor.RED + "Already Rental now", Tools.consoleMode.full, Config.programCode );
+                        }
+                        return true;
+                    }
+                    break;
+                case "undefine":
+                    if ( !region.equals( "" ) ) {
+                        Tools.Prt( player, "Manual Rent Out [" + region + "]", Tools.consoleMode.full, Config.programCode );
+                        sign.setLine( 1, ChatColor.BLUE + "for Rent" );
+                        if ( RentControl.Rental( null, "", sign, false ) ) {
+                            Tools.Prt( player, ChatColor.AQUA + "Rental released", Tools.consoleMode.full, Config.programCode );
+                        }
+                        return true;
+                    }
                 default:
             }
         }
         Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
-        Tools.Prt( player, "/rent entry [RegionName]", Config.programCode );
-        Tools.Prt( player, "/rent remove [RegionName]", Config.programCode );
+        Tools.Prt( player, "/rent entry [region]", Config.programCode );
+        Tools.Prt( player, "/rent remove [region]", Config.programCode );
         Tools.Prt( player, "/rent list", Config.programCode );
-        Tools.Prt( player, "/rent info [RegionName]", Config.programCode );
+        Tools.Prt( player, "/rent info [region]", Config.programCode );
         Tools.Prt( player, "/rent expired", Config.programCode );
         Tools.Prt( player, "/rent stauts", Config.programCode );
+        Tools.Prt( player, "/rent defne [region] [player]", commandLabel);
+        Tools.Prt( player, "/rent undefne [region]", commandLabel);
         return false;
     }
 }

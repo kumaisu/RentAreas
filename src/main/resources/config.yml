@@ -17,5 +17,9 @@ SignSetKey: "RentArea"
 #   看板クリック時のメニュータイトル
 Menu: "§a無料マンション　メニュー"
 
+#   ボタン名称
 RentIn: "借りる"
 RentOut: "退去する"
+
+#   レンタル終了日数　ゼロなら無期限
+RentExpired: 90

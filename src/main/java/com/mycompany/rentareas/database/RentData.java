@@ -165,24 +165,23 @@ public class RentData {
     /**
      * プレイヤー情報を登録
      *
-     * @param player
+     * @param uuid
+     * @param name
      * @param region 
      */
-    public static void SetPlayerToSQL( Player player, String region ) {
+    public static void SetPlayerToSQL( UUID uuid, String name, String region ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             //  uuid
             String sql =
                 "UPDATE area SET " + 
-                ( ( player == null ) ? "uuid = ''" : "uuid = '" + player.getUniqueId().toString() + "'" ) +
+                ( ( uuid == null ) ? "uuid = ''" : "uuid = '" + uuid.toString() + "'" ) +
                 " WHERE region = '" + region + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();
 
             //  name
-            sql = "UPDATE area SET " +
-                ( ( player == null ) ? "name = ''" : "name = '" + player.getName() + "'" ) +
-                " WHERE region = '" + region + "';";
+            sql = "UPDATE area SET name = '" + name + "' WHERE region = '" + region + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             preparedStatement = con.prepareStatement(sql);
             preparedStatement.executeUpdate();

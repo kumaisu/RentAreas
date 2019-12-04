@@ -54,25 +54,25 @@ public class InventoryListener implements Listener {
                 case "BLUE_WOOL":
                     event.getWhoClicked().closeInventory();
                     Tools.Prt( player, "Rent IN [" + region + "]", Tools.consoleMode.full, Config.programCode );
-                    if ( !RentControl.Rental( player, sign, true ) ) {
+                    if ( !RentControl.Rental( player.getUniqueId(), player.getName(), sign, true ) ) {
                         Tools.Prt( player, ChatColor.RED + "Already Rental now", Tools.consoleMode.full, Config.programCode );
                     }
                     break;
                 case "RED_WOOL":
                     event.getWhoClicked().closeInventory();
                     Tools.Prt( player, "Rent OUT [" + region + "]", Tools.consoleMode.full, Config.programCode );
-                    RentControl.Rental( player, sign, false );
+                    RentControl.Rental( null, "", sign, false );
                     break;
                 case "WOOL":    // 1.12.2 対応
                     Tools.Prt( "WOOL", Tools.consoleMode.max, Config.programCode );
                     event.getWhoClicked().closeInventory();
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentIn ) ) {
                         Tools.Prt( player, "Rent IN", Tools.consoleMode.full, Config.programCode );
-                        RentControl.Rental( player, sign, true );
+                        RentControl.Rental( player.getUniqueId(), player.getName(), sign, true );
                     }
                     if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentOut ) ) {
                         Tools.Prt( player, "Rent OUT", Tools.consoleMode.full, Config.programCode );
-                        RentControl.Rental( player, sign, false );
+                        RentControl.Rental( null, "", sign, false );
                     }
                     break;
                 default:
