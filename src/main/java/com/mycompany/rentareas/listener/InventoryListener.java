@@ -15,10 +15,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import com.mycompany.rentareas.config.Config;
 import com.mycompany.rentareas.control.InvMenu;
-import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.control.RentControl;
 import com.mycompany.rentareas.database.Database;
 import com.mycompany.rentareas.database.RentData;
+import com.mycompany.kumaisulibraries.Tools;
 
 /**
  *
@@ -44,48 +44,42 @@ public class InventoryListener implements Listener {
         Tools.Prt( ChatColor.GOLD + "get Inventory Click Event", Tools.consoleMode.max, Config.programCode );
         Player player = ( Player ) event.getWhoClicked();
         if ( !event.getInventory().equals( InvMenu.inv.get( player.getUniqueId() ) ) ) return;
-        Sign sign = (Sign) InvMenu.loc.get( player.getUniqueId() ).getBlock().getState();
-        String region = sign.getLine( 0 );
+        if ( !RentData.GetRegion( InvMenu.reg.get( player.getUniqueId() ) ) ) return;
+
+        Sign sign = ( Sign ) Database.Position.getBlock().getState();
         event.setCancelled( true );
 
         try {
             switch( event.getCurrentItem().getType().name() ) {
-                case "END_CRYSTAL":     //  予備メニュー
-                    event.getWhoClicked().closeInventory();
-                    if ( RentData.GetRegion( region ) ) {
-                        sign.setLine( 0, Database.region );
-                        sign.setLine( 1, Database.name );
-                        sign.setLine( 3, ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" );
-                        sign.update();
-                    }
+                case "BARRIER":
+                    sign.setLine( 3, ChatColor.RED + "# " + Config.SignSetKey + " #" );
+                    sign.update();
+                    RentData.DelSQL( Database.region );
+                    break;
+                case "END_CRYSTAL":
+                    sign.setLine( 0, Database.region );
+                    sign.setLine( 1, ( Database.name.equals( "" ) ? ChatColor.BLUE + "For Rent" : ChatColor.AQUA + Database.name ) );
+                    sign.setLine( 3, ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" );
+                    sign.update();
                     break;
                 case "BLUE_WOOL":
-                    event.getWhoClicked().closeInventory();
-                    Tools.Prt( player, "Rent IN [" + region + "]", Tools.consoleMode.full, Config.programCode );
-                    if ( !RentControl.Rental( player.getUniqueId(), player.getName(), sign, true ) ) {
-                        Tools.Prt( player, ChatColor.RED + "Already Rental now", Tools.consoleMode.full, Config.programCode );
-                    }
+                    RentControl.in( player );
                     break;
                 case "RED_WOOL":
-                    event.getWhoClicked().closeInventory();
-                    Tools.Prt( player, "Rent OUT [" + region + "]", Tools.consoleMode.full, Config.programCode );
-                    RentControl.Rental( null, "", sign, false );
+                    Tools.Prt( player, "Rent OUT [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
+                    RentControl.out( player );
                     break;
                 case "WOOL":    // 1.12.2 対応
                     Tools.Prt( "WOOL", Tools.consoleMode.max, Config.programCode );
                     event.getWhoClicked().closeInventory();
-                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentIn ) ) {
-                        Tools.Prt( player, "Rent IN", Tools.consoleMode.full, Config.programCode );
-                        RentControl.Rental( player.getUniqueId(), player.getName(), sign, true );
-                    }
-                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentOut ) ) {
-                        Tools.Prt( player, "Rent OUT", Tools.consoleMode.full, Config.programCode );
-                        RentControl.Rental( null, "", sign, false );
-                    }
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentIn ) ) { RentControl.in( player ); }
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentOut ) ) { RentControl.out( player ); }
                     break;
                 default:
                     Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, Config.programCode );
+                    return;
             }
+            event.getWhoClicked().closeInventory();
         } catch ( NullPointerException e ) {}
     }
 

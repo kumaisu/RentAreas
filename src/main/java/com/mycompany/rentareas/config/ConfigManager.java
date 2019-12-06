@@ -72,6 +72,7 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "Menu String  : " + ChatColor.YELLOW + Config.MenuString, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Rental IN    : " + ChatColor.YELLOW + Config.RentIn, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Rental Out   : " + ChatColor.YELLOW + Config.RentOut, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Expired      : " + ChatColor.YELLOW + Config.Expired + " days", programCode );
         Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
     }
 }

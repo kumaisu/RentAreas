@@ -62,7 +62,6 @@ public class ClickListener implements Listener {
             event.setCancelled( true );
             for ( int i = 0; i < 4; i++ ) { Tools.Prt( ChatColor.YELLOW + "Sign Line " + i + " : " + sign.getLine( i ), Tools.consoleMode.max, programCode ); }
             //  看板内容更新
-            InvMenu.loc.put( player.getUniqueId(), clickedBlock.getLocation() );
             InvMenu.reg.put( player.getUniqueId(), sign.getLine( 0 ) );
             InvMenu.printMenu( player );
         }

@@ -35,7 +35,6 @@ public class RentAreas extends JavaPlugin {
         new PlayerListener( this );
         getCommand( "rent" ).setExecutor( new RentCommand( this ) );
         InvMenu.inv = new HashMap<>();
-        InvMenu.loc = new HashMap<>();
         InvMenu.reg = new HashMap<>();
     }
 

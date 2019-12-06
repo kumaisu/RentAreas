@@ -7,6 +7,7 @@ package com.mycompany.rentareas.database;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import org.bukkit.Location;
 import com.zaxxer.hikari.HikariDataSource;
 
 /**
@@ -27,6 +28,8 @@ public class Database {
     public static String region = "";
     public static String uuidstr = "";
     public static String name = "Unknown";
+    public static String world = "";
+    public static Location Position = null;
     public static Date entry;
     public static Date logout;
 }

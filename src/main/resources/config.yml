@@ -15,7 +15,7 @@ mysql:
 SignSetKey: "RentArea"
 
 #   看板クリック時のメニュータイトル
-Menu: "§a無料マンション　メニュー"
+Menu: "§a無料マンション "
 
 #   ボタン名称
 RentIn: "借りる"

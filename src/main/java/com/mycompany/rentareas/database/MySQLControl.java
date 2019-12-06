@@ -90,6 +90,10 @@ public class MySQLControl {
             //          region : varchar(20)    WorldGuard Region Name
             //		uuid : varchar(36)	player uuid
             //		name : varchar(20)	player name
+            //          world : varchar(30)     world name
+            //          x : int                 Sign Pos X
+            //          y : int                 Sign Pos Y
+            //          z : int                 Sign Pos Z
             //          entry : DATETIME        Rent Date
             //          logout : DATETIME       player Logout Date
             //  存在すれば、無視される
@@ -97,6 +101,10 @@ public class MySQLControl {
                     + "region varchar(20), "
                     + "uuid varchar(36), "
                     + "name varchar(20), "
+                    + "world varchar(30), "
+                    + "x int, "
+                    + "y int, "
+                    + "z int, "
                     + "entry DATETIME, "
                     + "logout DATETIME );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
