@@ -40,6 +40,12 @@ public class PlaceListener implements Listener {
         Tools.Prt( ChatColor.GOLD + "get Sign Change Event", Tools.consoleMode.max, Config.programCode );
         Player player = event.getPlayer();
         Material material = event.getBlock().getType();
+
+        if ( RentData.GetRegion( event.getLine( 0 ) ) ) {
+            Tools.Prt( player, ChatColor.RED + "Already registered region", Config.programCode );
+            return;
+        }
+        
         Tools.Prt( ChatColor.YELLOW + "Material = " + material.name(), Tools.consoleMode.max, Config.programCode );
         for ( int i = 0; i < 4; i++ ) {
             Tools.Prt( ChatColor.YELLOW + "Old Sign " + i + " : " + event.getLine( i ), Tools.consoleMode.max, Config.programCode );

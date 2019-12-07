@@ -29,19 +29,31 @@ public class DataList {
         return
             ChatColor.WHITE + rs.getString( "region" ) + " : " +
             ChatColor.AQUA + ( rs.getString( "name" ).equals( "" ) ?
-                "For Rent" + ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "]" :
-                rs.getString( "name" ) + ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "] " ) +
+                "For Rent" + ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "]":
+                rs.getString( "name" ) + ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "]" ) +
             ChatColor.WHITE + 
-                String.format( "%d", rs.getInt( "x" ) ) + "," +
+                String.format( " %d", rs.getInt( "x" ) ) + "," +
                 String.format( "%d", rs.getInt( "y" ) ) + "," +
                 String.format( "%d", rs.getInt( "z" ) ) + "{" +
                 rs.getString( "world" ) + "}";
     }
 
-    public static void List( Player player ) {
+    /**
+     * 登録データ一覧表示
+     * mode -1  : 空き部屋
+     * mode 0   : 全て
+     * mode 1   : 入居済み
+     *
+     * @param player
+     * @param mode 
+     */
+    public static void List( Player player, int mode ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
-            String sql = "SELECT * FROM area ORDER BY region ASC;";
+            String sql = "SELECT * FROM area ";
+            if ( mode < 0 ) { sql += "WHERE name LIKE ''"; }
+            if ( mode > 0 ) { sql += "WHERE name NOT LIKE ''"; }
+            sql += " ORDER BY region ASC;";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
 
