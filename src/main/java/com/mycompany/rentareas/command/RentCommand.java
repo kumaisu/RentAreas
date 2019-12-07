@@ -98,18 +98,18 @@ public class RentCommand implements CommandExecutor {
                 case "define":
                     if ( ( region.equals( "" ) ) || ( Tools.getUUID( username ) == null ) ) { return false; }
                     Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
-                    RentControl.in( player, Tools.getUUID( username ), username );
+                    RentControl.in( player, region, Tools.getUUID( username ), username );
                     break;
                 case "undefine":
                     if ( region.equals( "" ) ) { return false; }
                     Tools.Prt( player, "Manual Rent Out [" + region + "]", Tools.consoleMode.full, Config.programCode );
-                    RentControl.out( player );
+                    RentControl.out( player, region );
                     break;
                 case "help":
                     Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
                     Tools.Prt( player, "空室リスト      /rent vacancy", Config.programCode );
                     Tools.Prt( player, "全部屋リスト    /rent list", Config.programCode );
-                    Tools.Prt( player, "入居者リスト    /rent tanant", Config.programCode );
+                    Tools.Prt( player, "入居者リスト    /rent tenant", Config.programCode );
                     Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
                     Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
                     Tools.Prt( player, "手動入居処理    /rent defne [region] [player]", Config.programCode );

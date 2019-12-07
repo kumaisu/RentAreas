@@ -26,11 +26,14 @@ public class DataList {
     static String sepalateStr = "================================================";
 
     public static String PrtLine( ResultSet rs ) throws SQLException {
+        Date entryDate = rs.getTimestamp( "logout" );
+        int progress = Utility.dateDiff( entryDate, new Date() );
         return
-            ChatColor.WHITE + rs.getString( "region" ) + " : " +
-            ChatColor.AQUA + ( rs.getString( "name" ).equals( "" ) ?
-                "For Rent" + ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "]":
-                rs.getString( "name" ) + ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "]" ) +
+            ChatColor.WHITE + rs.getString( "region" ) + " :" +
+                ChatColor.GOLD + "(" + String.format( "%3d", progress ) + "日) " +
+            ( rs.getString( "name" ).equals( "" ) ?
+                ChatColor.LIGHT_PURPLE + "For Rent" + ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "]":
+                ChatColor.AQUA + rs.getString( "name" ) + ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "]" ) +
             ChatColor.WHITE + 
                 String.format( " %d", rs.getInt( "x" ) ) + "," +
                 String.format( "%d", rs.getInt( "y" ) ) + "," +
@@ -57,7 +60,7 @@ public class DataList {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
 
-            Tools.Prt( player, "借用者一覧リスト（保護名、Player、更新日、場所）", Config.programCode );
+            Tools.Prt( player, "借用者一覧リスト（保護名,日数,Player,更新日,場所）", Config.programCode );
             Tools.Prt( player, sepalateStr, Config.programCode );
 
             while( rs.next() ) {
@@ -101,7 +104,7 @@ public class DataList {
         }
         
         if ( StringData.size() > 0 ) {
-            Tools.Prt( player, "期限切れ一覧（保護名、Player、借用日、場所）", Config.programCode );
+            Tools.Prt( player, "期限切れ一覧（保護名,日数,Player,更新日,場所）", Config.programCode );
             Tools.Prt( player, sepalateStr, Config.programCode );
             StringData.forEach( ( s ) -> { Tools.Prt( player, s, Config.programCode ); } );
             Tools.Prt( player, sepalateStr, Config.programCode );

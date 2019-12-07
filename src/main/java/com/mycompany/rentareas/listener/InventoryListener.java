@@ -63,17 +63,17 @@ public class InventoryListener implements Listener {
                     sign.update();
                     break;
                 case "BLUE_WOOL":
-                    RentControl.in( player );
+                    RentControl.in( player, InvMenu.reg.get( player.getUniqueId() ) );
                     break;
                 case "RED_WOOL":
                     Tools.Prt( player, "Rent OUT [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
-                    RentControl.out( player );
+                    RentControl.out( player, InvMenu.reg.get( player.getUniqueId() ) );
                     break;
                 case "WOOL":    // 1.12.2 対応
                     Tools.Prt( "WOOL", Tools.consoleMode.max, Config.programCode );
                     event.getWhoClicked().closeInventory();
-                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentIn ) ) { RentControl.in( player ); }
-                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentOut ) ) { RentControl.out( player ); }
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentIn ) ) { RentControl.in( player, InvMenu.reg.get( player.getUniqueId() ) ); }
+                    if ( event.getCurrentItem().getItemMeta().getDisplayName().equals( Config.RentOut ) ) { RentControl.out( player, InvMenu.reg.get( player.getUniqueId() ) ); }
                     break;
                 default:
                     Tools.Prt( event.getCurrentItem().getType().name(), Tools.consoleMode.max, Config.programCode );

@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 public class RentControl {
 
-    public static boolean in( Player player, UUID uuid, String playerName ) {
+    public static boolean in( Player player, String region, UUID uuid, String playerName ) {
         RentData.GetRegion( InvMenu.reg.get( player.getUniqueId() ) );
         
         Tools.Prt( "Rent IN [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
@@ -44,19 +44,19 @@ public class RentControl {
             return false;
         }
     }
-    public static boolean in( Player player ) {
-        return in( player, player.getUniqueId(), player.getName() );
+    public static boolean in( Player player, String region ) {
+        return in( player, region, player.getUniqueId(), player.getName() );
     }
 
-    public static boolean out( Player player ) {
-        RentData.GetRegion( InvMenu.reg.get( player.getUniqueId() ) );
+    public static boolean out( Player player, String region ) {
+        RentData.GetRegion( region );
 
         Tools.Prt( "Rent OUT", Tools.consoleMode.full, Config.programCode );
 
         String Command;
 
         Sign sign = ( Sign ) Database.Position.getBlock().getState();
-        if ( Database.name.equals( player.getName() ) ) {
+        if ( Database.name.equals( player.getName() ) || player.hasPermission( "rentareas.admin" ) ) {
             sign.setLine( 1, ChatColor.BLUE + "for Rent" );
             sign.update();
             //rg removeowner -w world_basic 1101 Kumaisu
