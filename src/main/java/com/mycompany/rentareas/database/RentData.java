@@ -132,6 +132,7 @@ public class RentData {
      * @return 
      */
     public static int GetCount( int mode ) {
+        int count = 0;
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
             String sql = "SELECT count(*) FROM area ";
@@ -139,12 +140,12 @@ public class RentData {
             if ( mode > 0 ) { sql += "WHERE name NOT LIKE '';"; }
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
-            if ( rs.next() ) { return rs.getInt( "count(*)" ); }
+            if ( rs.next() ) { count = rs.getInt( "count(*)" ); }
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error GetCount : " + e.getMessage(), Config.programCode );
         }
-        return 0;
+        return count;
     }
 
     /**
@@ -154,17 +155,18 @@ public class RentData {
      * @return 
      */
     public static int RentCount( UUID uuid ) {
+        int count = 0;
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
             String sql = "SELECT count(*) FROM area WHERE uuid = '" + uuid.toString() + "';";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
-            if ( rs.next() ) { return rs.getInt( "count(*)" ); }
+            if ( rs.next() ) { count = rs.getInt( "count(*)" ); }
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error RentCount : " + e.getMessage(), Config.programCode );
         }
-        return 0;
+        return count;
     }
 
     /**

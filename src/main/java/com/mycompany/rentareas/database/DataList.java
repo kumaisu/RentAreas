@@ -30,7 +30,7 @@ public class DataList {
         int progress = Utility.dateDiff( entryDate, new Date() );
         return
             ChatColor.WHITE + rs.getString( "region" ) + " : " +
-                ChatColor.GOLD + String.format( "%3d", progress ) + "日 " +
+                ChatColor.GOLD + String.format( "%3d", progress ) + "日" +
             ( rs.getString( "name" ).equals( "" ) ?
                 ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "] " + ChatColor.LIGHT_PURPLE + "For Rent" :
                 ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "] " + ChatColor.AQUA + rs.getString( "name" ) );

@@ -10,7 +10,6 @@ commands:
         description: Player Free Rental Area List
     rent:
         description: Rental Areas Command
-        permission: rentareas.modify
         default: op
         permission-message: You do not have permission.
 permissions:

@@ -58,13 +58,19 @@ public class RentCommand implements CommandExecutor {
         if ( args.length > 0 ) {
             switch( args[0].toLowerCase() ) {
                 case "reload":
-                    ConfigManager.load();
-                    Tools.Prt( player, ( "Rental Areas Config Reloaded." ), Config.programCode );
+                    if ( player == null ? true : player.hasPermission("rentareas.console" ) ) {
+                        ConfigManager.load();
+                        Tools.Prt( player, ( "Rental Areas Config Reloaded." ), Config.programCode );
+                    } else {
+                        Tools.Prt( player, ChatColor.RED + "Console commands cannot be used", Tools.consoleMode.max, Config.programCode );
+                    }
                     break;
                 case "console":
-                    if ( !Tools.setDebug( args[1], Config.programCode ) ) {
+                    if ( ( !Tools.setDebug( args[1], Config.programCode ) && ( player == null ? true : player.hasPermission("rentareas.console" ) ) ) ) {
                         Tools.entryDebugFlag( Config.programCode, Tools.consoleMode.normal );
                         Tools.Prt( player, ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", Config.programCode );
+                    } else {
+                        Tools.Prt( player, ChatColor.RED + "Console commands cannot be used", Tools.consoleMode.max, Config.programCode );
                     }
                     Tools.Prt( player,
                         ChatColor.GREEN + "System Debug Mode is [ " +
