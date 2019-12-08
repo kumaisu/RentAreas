@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.mycompany.rentareas.config.ConfigManager;
 import com.mycompany.rentareas.database.MySQLControl;
 import com.mycompany.rentareas.command.RentCommand;
+import com.mycompany.rentareas.command.FreeRentCommand;
 import com.mycompany.rentareas.control.InvMenu;
 import com.mycompany.rentareas.listener.BreakListener;
 import com.mycompany.rentareas.listener.ClickListener;
@@ -34,6 +35,7 @@ public class RentAreas extends JavaPlugin {
         new InventoryListener( this );
         new PlayerListener( this );
         getCommand( "rent" ).setExecutor( new RentCommand( this ) );
+        getCommand( "freerent" ).setExecutor( new FreeRentCommand( this ) );
         InvMenu.inv = new HashMap<>();
         InvMenu.reg = new HashMap<>();
     }

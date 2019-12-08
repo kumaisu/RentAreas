@@ -21,5 +21,11 @@ Menu: "§a無料マンション "
 RentIn: "借りる"
 RentOut: "退去する"
 
+#   最大レンタル数設定　ゼロなら無限
+RentNum: 1
+
 #   レンタル終了日数　ゼロなら無期限
 RentExpired: 90
+
+#   期限切れユーザーの告知　Permission.admin 保有者向け
+Warning: true

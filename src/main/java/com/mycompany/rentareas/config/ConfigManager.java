@@ -57,6 +57,8 @@ public class ConfigManager {
         Config.RentIn       = config.getString( "RentIn" );
         Config.RentOut      = config.getString( "RentOut" );
         Config.Expired      = config.getInt( "RentExpired", 0 );
+        Config.RentNum      = config.getInt( "RentNum", 0 );
+        Config.Warning      = config.getBoolean( "Warning", false );
     }
 
     public static void Status( Player p ) {
@@ -69,10 +71,12 @@ public class ConfigManager {
             Tools.Prt( p, ChatColor.WHITE + "DB Password  : " + ChatColor.YELLOW + Config.password, programCode );
         }
         Tools.Prt( p, ChatColor.WHITE + "Sign Set Key : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Warning      : " + ChatColor.YELLOW + ( Config.Warning ? "Notification" : "Unannounced" ), programCode );
         Tools.Prt( p, ChatColor.WHITE + "Menu String  : " + ChatColor.YELLOW + Config.MenuString, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Rental IN    : " + ChatColor.YELLOW + Config.RentIn, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Rental Out   : " + ChatColor.YELLOW + Config.RentOut, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Expired      : " + ChatColor.YELLOW + Config.Expired + " days", programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Rent Max     : " + ChatColor.YELLOW + Config.RentNum, programCode );
         Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
     }
 }

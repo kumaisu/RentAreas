@@ -25,4 +25,6 @@ public class Config {
     public static String RentIn;
     public static String RentOut;
     public static int Expired;
+    public static int RentNum;
+    public static boolean Warning;
 }

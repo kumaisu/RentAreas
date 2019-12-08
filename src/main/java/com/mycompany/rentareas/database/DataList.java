@@ -29,16 +29,18 @@ public class DataList {
         Date entryDate = rs.getTimestamp( "logout" );
         int progress = Utility.dateDiff( entryDate, new Date() );
         return
-            ChatColor.WHITE + rs.getString( "region" ) + " :" +
-                ChatColor.GOLD + "(" + String.format( "%3d", progress ) + "日) " +
+            ChatColor.WHITE + rs.getString( "region" ) + " : " +
+                ChatColor.GOLD + String.format( "%3d", progress ) + "日 " +
             ( rs.getString( "name" ).equals( "" ) ?
-                ChatColor.LIGHT_PURPLE + "For Rent" + ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "]":
-                ChatColor.AQUA + rs.getString( "name" ) + ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "]" ) +
+                ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "] " + ChatColor.LIGHT_PURPLE + "For Rent" :
+                ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "] " + ChatColor.AQUA + rs.getString( "name" ) );
+        /*
             ChatColor.WHITE + 
                 String.format( " %d", rs.getInt( "x" ) ) + "," +
                 String.format( "%d", rs.getInt( "y" ) ) + "," +
                 String.format( "%d", rs.getInt( "z" ) ) + "{" +
                 rs.getString( "world" ) + "}";
+        */
     }
 
     /**
@@ -49,8 +51,9 @@ public class DataList {
      *
      * @param player
      * @param mode 
+     * @param lines 
      */
-    public static void List( Player player, int mode ) {
+    public static void List( Player player, int mode, int lines ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
             String sql = "SELECT * FROM area ";
@@ -63,8 +66,16 @@ public class DataList {
             Tools.Prt( player, "借用者一覧リスト（保護名,日数,Player,更新日,場所）", Config.programCode );
             Tools.Prt( player, sepalateStr, Config.programCode );
 
-            while( rs.next() ) {
-                Tools.Prt( player, PrtLine( rs ), Config.programCode );
+            int pi = 0;
+            int di = 0;
+            String chk_name = "";
+
+            while( rs.next() && ( pi<6 ) ) {
+                di++;
+                if ( ( di >= lines ) || ( lines == 0 ) ) { 
+                    Tools.Prt( player, PrtLine( rs ), Config.programCode );
+                    if ( lines > 0 ) pi++;
+                }
             }
 
             Tools.Prt( player, sepalateStr, Config.programCode );

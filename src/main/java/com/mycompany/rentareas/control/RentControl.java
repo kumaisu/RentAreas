@@ -22,18 +22,20 @@ import java.util.UUID;
 public class RentControl {
 
     public static boolean in( Player player, String region, UUID uuid, String playerName ) {
-        RentData.GetRegion( InvMenu.reg.get( player.getUniqueId() ) );
-        
         Tools.Prt( "Rent IN [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
 
-        String Command;
-
+        if ( RentData.RentCount( uuid ) >= Config.RentNum ) {
+            Tools.Prt( player, ChatColor.RED + playerName + " さんはこれ以上の借入はできません", Config.programCode );
+            return false;
+        }
+        
+        RentData.GetRegion( region );
         Sign sign = ( Sign ) Database.Position.getBlock().getState();
         if ( Database.name.equals( "" ) ) {
             sign.setLine( 1, playerName );
             sign.update();
             // rg addowner -w world_basic 1101 Kumaisu
-            Command = "rg addowner -w " + Database.world + " " + Database.region + " " + playerName;
+            String Command = "rg addowner -w " + Database.world + " " + Database.region + " " + playerName;
             Tools.Prt( ChatColor.YELLOW + "Command : " + Command, Tools.consoleMode.max, Config.programCode );
             Bukkit.getServer().dispatchCommand( Bukkit.getConsoleSender(), Command );
             RentData.SetPlayerToSQL( uuid, playerName, Database.region );
@@ -49,18 +51,14 @@ public class RentControl {
     }
 
     public static boolean out( Player player, String region ) {
-        RentData.GetRegion( region );
-
         Tools.Prt( "Rent OUT", Tools.consoleMode.full, Config.programCode );
-
-        String Command;
-
+        RentData.GetRegion( region );
         Sign sign = ( Sign ) Database.Position.getBlock().getState();
         if ( Database.name.equals( player.getName() ) || player.hasPermission( "rentareas.admin" ) ) {
             sign.setLine( 1, ChatColor.BLUE + "for Rent" );
             sign.update();
             //rg removeowner -w world_basic 1101 Kumaisu
-            Command = "rg removeowner -w " + Database.world + " " + Database.region + " " + Database.name;
+            String Command = "rg removeowner -w " + Database.world + " " + Database.region + " " + Database.name;
             Tools.Prt( ChatColor.YELLOW + "Command : " + Command, Tools.consoleMode.max, Config.programCode );
             Bukkit.getServer().dispatchCommand( Bukkit.getConsoleSender(), Command );
             RentData.SetPlayerToSQL( null, "", Database.region );

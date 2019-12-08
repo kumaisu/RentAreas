@@ -123,6 +123,51 @@ public class RentData {
     }
 
     /**
+     * 件数取得
+     * mode -1  : 空き部屋
+     * mode 0   : 全て
+     * mode 1   : 入居済み
+     *
+     * @param mode
+     * @return 
+     */
+    public static int GetCount( int mode ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Statement stmt = con.createStatement();
+            String sql = "SELECT count(*) FROM area ";
+            if ( mode < 0 ) { sql += "WHERE name LIKE '';"; }
+            if ( mode > 0 ) { sql += "WHERE name NOT LIKE '';"; }
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
+            ResultSet rs = stmt.executeQuery( sql );
+            if ( rs.next() ) { return rs.getInt( "count(*)" ); }
+            con.close();
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error GetCount : " + e.getMessage(), Config.programCode );
+        }
+        return 0;
+    }
+
+    /**
+     * UUIDによる、借部屋数取得
+     *
+     * @param uuid
+     * @return 
+     */
+    public static int RentCount( UUID uuid ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Statement stmt = con.createStatement();
+            String sql = "SELECT count(*) FROM area WHERE uuid = '" + uuid.toString() + "';";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
+            ResultSet rs = stmt.executeQuery( sql );
+            if ( rs.next() ) { return rs.getInt( "count(*)" ); }
+            con.close();
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error RentCount : " + e.getMessage(), Config.programCode );
+        }
+        return 0;
+    }
+
+    /**
      * プレイヤー情報を削除する
      *
      * @param region

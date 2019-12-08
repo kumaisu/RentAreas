@@ -77,13 +77,13 @@ public class RentCommand implements CommandExecutor {
                     ConfigManager.Status( player );
                     break;
                 case "vacancy":
-                    DataList.List( player, -1 );
+                    DataList.List( player, -1, 0 );
                     break;
                 case "list":
-                    DataList.List( player, 0 );
+                    DataList.List( player, 0, 0 );
                     break;
                 case "tenant":
-                    DataList.List( player, 1 );
+                    DataList.List( player, 1, 0 );
                     break;
                 case "info":
                     if ( RentData.RegionInfo( player, region ) ) {
