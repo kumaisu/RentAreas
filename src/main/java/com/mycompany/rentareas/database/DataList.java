@@ -23,7 +23,6 @@ import com.mycompany.rentareas.config.Config;
  * @author sugichan
  */
 public class DataList {
-    static String sepalateStr = "================================================";
 
     public static String PrtLine( ResultSet rs ) throws SQLException {
         Date entryDate = rs.getTimestamp( "logout" );
@@ -50,10 +49,13 @@ public class DataList {
      * mode 1   : 入居済み
      *
      * @param player
-     * @param mode 
-     * @param lines 
+     * @param mode
+     * @param page
      */
-    public static void List( Player player, int mode, int lines ) {
+    public static void List( Player player, int mode, int page ) {
+        int ClientLine = 8;
+        int lines = ( page == 0 ? 1 : ( ( page - 1 ) * ClientLine ) + 1 );
+
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
             String sql = "SELECT * FROM area ";
@@ -64,26 +66,35 @@ public class DataList {
             ResultSet rs = stmt.executeQuery( sql );
 
             Tools.Prt( player, "借用者一覧リスト（保護名,日数,Player,更新日,場所）", Config.programCode );
-            Tools.Prt( player, sepalateStr, Config.programCode );
 
             int pi = 0;
             int di = 0;
-            String chk_name = "";
 
-            while( rs.next() && ( pi<6 ) ) {
+            while( rs.next() && ( pi < ClientLine ) ) {
                 di++;
-                if ( ( di >= lines ) || ( lines == 0 ) ) { 
+                if ( ( di >= lines ) || ( page == 0 ) ) { 
                     Tools.Prt( player, PrtLine( rs ), Config.programCode );
-                    if ( lines > 0 ) pi++;
+                    if ( page > 0 ) pi++;
                 }
             }
-
-            Tools.Prt( player, sepalateStr, Config.programCode );
-
             con.close();
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error ListRegions : " + e.getMessage(), Config.programCode );
         }
+
+        int freeAll     = RentData.GetCount( mode );
+        int pageData    = ( freeAll / ClientLine ) + ( ( ( freeAll % ClientLine ) == 0 ? 0 : 1 ) );
+        Tools.Prt( player,
+            "Rental " +
+                ( page == 0 ? "" : "Data Pages (" + page + "/" + pageData + ") " ) +
+                "Get " + freeAll + " Data's",
+            Config.programCode
+        );
+        /*
+        Tools.Prt( "全て     : " + RentData.GetCount( 0 ), Config.programCode );
+        Tools.Prt( "空き部屋 : " + RentData.GetCount( -1 ), Config.programCode );
+        Tools.Prt( "入居済み : " + RentData.GetCount( 1 ), Config.programCode );
+        */
     }
 
     public static void Expired( Player player ) {
@@ -95,7 +106,6 @@ public class DataList {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
 
-            int loopCount = 0;
             while( rs.next() ) {
                 Date entryDate = rs.getTimestamp( "logout" );
                 int progress = Utility.dateDiff( entryDate, new Date() );
@@ -106,7 +116,6 @@ public class DataList {
                 );
                 if ( ( Config.Expired > 0 ) && ( progress > Config.Expired ) && ( !rs.getString( "name" ).equals( "" ) ) ) {
                     StringData.add( PrtLine( rs ) );
-                    loopCount++;
                 }
             }
             con.close();
@@ -116,9 +125,7 @@ public class DataList {
         
         if ( StringData.size() > 0 ) {
             Tools.Prt( player, "期限切れ一覧（保護名,日数,Player,更新日,場所）", Config.programCode );
-            Tools.Prt( player, sepalateStr, Config.programCode );
             StringData.forEach( ( s ) -> { Tools.Prt( player, s, Config.programCode ); } );
-            Tools.Prt( player, sepalateStr, Config.programCode );
         }
     }
 

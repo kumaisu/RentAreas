@@ -51,8 +51,16 @@ public class RentCommand implements CommandExecutor {
 
         String region = "";
         String username = "";
+        int getPage = 0;
 
-        if ( args.length > 1 ) { region = args[1]; }
+        if ( args.length > 1 ) {
+            region = args[1];
+            try {
+                getPage = Integer.parseInt( args[0] );
+            } catch ( NumberFormatException e ) {
+                Tools.Prt( player, ChatColor.RED + "数値を入力してください", Config.programCode );
+            }
+        }
         if ( args.length > 2 ) { username = args[2]; }
 
         if ( args.length > 0 ) {
@@ -83,13 +91,13 @@ public class RentCommand implements CommandExecutor {
                     ConfigManager.Status( player );
                     break;
                 case "vacancy":
-                    DataList.List( player, -1, 0 );
+                    DataList.List( player, -1, getPage );
                     break;
                 case "list":
-                    DataList.List( player, 0, 0 );
+                    DataList.List( player, 0, getPage );
                     break;
                 case "tenant":
-                    DataList.List( player, 1, 0 );
+                    DataList.List( player, 1, getPage );
                     break;
                 case "info":
                     if ( RentData.RegionInfo( player, region ) ) {
@@ -113,9 +121,9 @@ public class RentCommand implements CommandExecutor {
                     break;
                 case "help":
                     Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
-                    Tools.Prt( player, "空室リスト      /rent vacancy", Config.programCode );
-                    Tools.Prt( player, "全部屋リスト    /rent list", Config.programCode );
-                    Tools.Prt( player, "入居者リスト    /rent tenant", Config.programCode );
+                    Tools.Prt( player, "空室リスト      /rent vacancy [page]", Config.programCode );
+                    Tools.Prt( player, "全部屋リスト    /rent list [page]", Config.programCode );
+                    Tools.Prt( player, "入居者リスト    /rent tenant [page]", Config.programCode );
                     Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
                     Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
                     Tools.Prt( player, "手動入居処理    /rent defne [region] [player]", Config.programCode );
