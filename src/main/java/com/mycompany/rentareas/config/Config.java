@@ -13,11 +13,12 @@ public class Config {
 
     public static String programCode = "RA";
 
-    public static String host = "local";
-    public static String port = "3306";
-    public static String database = "RentAreas";
-    public static String username = "root";
-    public static String password = "";
+    public static String host       = "local";
+    public static String port       = "3306";
+    public static String database   = "RentAreas";
+    public static String worldguard = "";
+    public static String username   = "root";
+    public static String password   = "";
 
     public static String SignSetKey;
 

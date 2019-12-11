@@ -8,6 +8,7 @@ mysql:
   host: localhost
   port: 3306
   database: RentArea
+  worldguard: WorldGuard
   username: root
   password: password
 

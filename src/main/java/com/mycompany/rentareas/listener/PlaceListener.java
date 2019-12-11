@@ -15,6 +15,7 @@ import org.bukkit.event.block.SignChangeEvent;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.Config;
 import com.mycompany.rentareas.database.RentData;
+import com.mycompany.rentareas.database.WorldGuard;
 
 /**
  *
@@ -40,6 +41,11 @@ public class PlaceListener implements Listener {
         Tools.Prt( ChatColor.GOLD + "get Sign Change Event", Tools.consoleMode.max, Config.programCode );
         Player player = event.getPlayer();
         Material material = event.getBlock().getType();
+
+        if ( !WorldGuard.GetRegion( event.getLine( 0 ) ) ) {
+            Tools.Prt( player, ChatColor.RED + "No Registered region", Config.programCode );
+            return;
+        }
 
         if ( RentData.GetRegion( event.getLine( 0 ) ) ) {
             Tools.Prt( player, ChatColor.RED + "Already registered region", Config.programCode );

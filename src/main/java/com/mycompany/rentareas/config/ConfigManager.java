@@ -48,6 +48,7 @@ public class ConfigManager {
         Config.host         = config.getString( "mysql.host" );
         Config.port         = config.getString( "mysql.port" );
         Config.database     = config.getString( "mysql.database" );
+        Config.worldguard   = config.getString( "mysql.worldguard" );
         Config.username     = config.getString( "mysql.username" );
         Config.password     = config.getString( "mysql.password" );
 
@@ -66,6 +67,7 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "Degub Mode   : " + ChatColor.YELLOW + Tools.consoleFlag.get( programCode ).toString(), programCode );
         Tools.Prt( p, ChatColor.WHITE + "Mysql        : " + ChatColor.YELLOW + Config.host + ":" + Config.port, programCode );
         Tools.Prt( p, ChatColor.WHITE + "DB Name      : " + ChatColor.YELLOW + Config.database, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "WG DB Name   : " + ChatColor.YELLOW + Config.worldguard, programCode );
         if ( ( p == null ) || p.hasPermission( "rentareas.console" ) ) {
             Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username, programCode );
             Tools.Prt( p, ChatColor.WHITE + "DB Password  : " + ChatColor.YELLOW + Config.password, programCode );

@@ -30,6 +30,15 @@ public class RentCommand implements CommandExecutor {
         this.instance = instance;
     }
 
+    public int getNum( Player player, String NumStr ) {
+        try {
+            return Integer.parseInt( NumStr );
+        } catch ( NumberFormatException e ) {
+            Tools.Prt( player, ChatColor.RED + "数値を入力してください", Config.programCode );
+            return 0;
+        }
+    }
+
     /**
      * コマンド入力があった場合に発生するイベント
      *
@@ -51,16 +60,9 @@ public class RentCommand implements CommandExecutor {
 
         String region = "";
         String username = "";
-        int getPage = 0;
+        int getPage;
 
-        if ( args.length > 1 ) {
-            region = args[1];
-            try {
-                getPage = Integer.parseInt( args[0] );
-            } catch ( NumberFormatException e ) {
-                Tools.Prt( player, ChatColor.RED + "数値を入力してください", Config.programCode );
-            }
-        }
+        if ( args.length > 1 ) { region = args[1]; }
         if ( args.length > 2 ) { username = args[2]; }
 
         if ( args.length > 0 ) {
@@ -74,9 +76,11 @@ public class RentCommand implements CommandExecutor {
                     }
                     break;
                 case "console":
-                    if ( ( !Tools.setDebug( args[1], Config.programCode ) && ( player == null ? true : player.hasPermission("rentareas.console" ) ) ) ) {
-                        Tools.entryDebugFlag( Config.programCode, Tools.consoleMode.normal );
-                        Tools.Prt( player, ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", Config.programCode );
+                    if ( player == null || player.hasPermission("rentareas.console" ) ) {
+                        if ( !Tools.setDebug( args[1], Config.programCode ) ) {
+                            Tools.entryDebugFlag( Config.programCode, Tools.consoleMode.normal );
+                            Tools.Prt( player, ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", Config.programCode );
+                        }
                     } else {
                         Tools.Prt( player, ChatColor.RED + "Console commands cannot be used", Tools.consoleMode.max, Config.programCode );
                     }
@@ -91,12 +95,15 @@ public class RentCommand implements CommandExecutor {
                     ConfigManager.Status( player );
                     break;
                 case "vacancy":
+                    getPage = getNum( player, region );
                     DataList.List( player, -1, getPage );
                     break;
                 case "list":
+                    getPage = getNum( player, region );
                     DataList.List( player, 0, getPage );
                     break;
                 case "tenant":
+                    getPage = getNum( player, region );
                     DataList.List( player, 1, getPage );
                     break;
                 case "info":
