@@ -45,15 +45,6 @@ public class InvMenu {
         Inventory TempInv;
         TempInv = Bukkit.createInventory( null, slot, Config.MenuString + "[" + reg.get( player.getUniqueId() ) + "]" );
 
-        RentData.GetRegion( reg.get( player.getUniqueId() ) );
-        if ( !Database.name.equals( "" ) ) {
-            int progress = Utility.dateDiff( Database.logout, new Date() );
-            SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
-            SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
-            List< String > Lore = Arrays.asList( ddf.format( Database.logout ),tdf.format( Database.logout ), String.format( "%3d days", progress ) );
-            TempInv.setItem( 4, Absorption.getPlayerHead( Database.name, Lore ) );
-        }
-
         if ( player.isOp() ) {
             //  Remove Icon 作成
             ItemStack DelIcon = new ItemStack( Material.BARRIER, 1 );
@@ -72,8 +63,17 @@ public class InvMenu {
             TempInv.setItem( 25, UpIcon );
         }
 
-        //  借用
-        TempInv.setItem( 11, Absorption.OK() );
+        RentData.GetRegion( reg.get( player.getUniqueId() ) );
+        if ( Database.name.equals( "" ) ) {
+            //  借用
+            TempInv.setItem( 11, Absorption.OK() );
+        } else {
+            int progress = Utility.dateDiff( Database.logout, new Date() );
+            SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
+            SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
+            List< String > Lore = Arrays.asList( ddf.format( Database.logout ),tdf.format( Database.logout ), String.format( "%3d days", progress ) );
+            TempInv.setItem( 11, Absorption.getPlayerHead( Database.name, Lore ) );
+        }
 
         //  退去
         TempInv.setItem( 15, Absorption.NG() );

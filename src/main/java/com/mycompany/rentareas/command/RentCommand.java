@@ -39,6 +39,15 @@ public class RentCommand implements CommandExecutor {
         }
     }
 
+    public boolean info( Player player, String region ) {
+        if ( RentData.RegionInfo( player, region ) ) {
+            return true;
+        } else {
+            Tools.Prt( player, ChatColor.RED + "No Information.", Config.programCode );
+            return false;
+        }
+    }
+
     /**
      * コマンド入力があった場合に発生するイベント
      *
@@ -107,28 +116,28 @@ public class RentCommand implements CommandExecutor {
                     DataList.List( player, 1, getPage );
                     break;
                 case "info":
-                    if ( RentData.RegionInfo( player, region ) ) {
-                        break;
-                    } else {
-                        Tools.Prt( player, ChatColor.RED + "No Information.", Config.programCode );
-                        return false;
-                    }
+                    return info( player, region );
                 case "expired":
                     DataList.Expired( player );
                     break;
                 case "extension":
-                    RentData.SetExtension( region );
-                    break;
+                    if ( region.equals( "" ) ) {
+                        Tools.Prt( player, ChatColor.RED + "Regionを指定してください", Config.programCode );
+                        return false;
+                    } else {
+                        RentData.SetExtension( region );
+                        return info( player, region );
+                    }
                 case "define":
                     if ( ( region.equals( "" ) ) || ( Tools.getUUID( username ) == null ) ) { return false; }
                     Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
                     RentControl.in( player, region, Tools.getUUID( username ), username );
-                    break;
+                    return info( player, region );
                 case "undefine":
                     if ( region.equals( "" ) ) { return false; }
                     Tools.Prt( player, "Manual Rent Out [" + region + "]", Tools.consoleMode.full, Config.programCode );
                     RentControl.out( player, region );
-                    break;
+                    return info( player, region );
                 case "help":
                     Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
                     Tools.Prt( player, "空室リスト      /rent vacancy [page]", Config.programCode );
