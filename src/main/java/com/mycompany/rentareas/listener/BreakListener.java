@@ -42,7 +42,7 @@ public class BreakListener implements Listener {
         Tools.Prt( "Material = " + material.name(), Tools.consoleMode.max, Config.programCode );
 
         if ( !material.name().contains( "SIGN" ) ) return;
-        if ( player.hasPermission( "rentareas.admin" ) ) return;
+        //  if ( player.hasPermission( "rentareas.admin" ) ) return;
 
         //  DBからデータ取得
         Tools.Prt( ChatColor.YELLOW + player.getName() + " SignLoc = " + block.getLocation().toString(), Tools.consoleMode.max, Config.programCode );

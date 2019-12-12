@@ -5,11 +5,13 @@
  */
 package com.mycompany.rentareas.control;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,6 +20,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import com.mycompany.rentareas.Absorption;
 import com.mycompany.rentareas.config.Config;
+import com.mycompany.rentareas.database.Database;
+import com.mycompany.rentareas.database.RentData;
+import com.mycompany.kumaisulibraries.Utility;
 
 /**
  *
@@ -39,6 +44,15 @@ public class InvMenu {
 
         Inventory TempInv;
         TempInv = Bukkit.createInventory( null, slot, Config.MenuString + "[" + reg.get( player.getUniqueId() ) + "]" );
+
+        RentData.GetRegion( reg.get( player.getUniqueId() ) );
+        if ( !Database.name.equals( "" ) ) {
+            int progress = Utility.dateDiff( Database.logout, new Date() );
+            SimpleDateFormat ddf = new SimpleDateFormat( "yyyy/MM/dd" );
+            SimpleDateFormat tdf = new SimpleDateFormat( "HH:mm:ss" );
+            List< String > Lore = Arrays.asList( ddf.format( Database.logout ),tdf.format( Database.logout ), String.format( "%3d days", progress ) );
+            TempInv.setItem( 4, Absorption.getPlayerHead( Database.name, Lore ) );
+        }
 
         if ( player.isOp() ) {
             //  Remove Icon 作成

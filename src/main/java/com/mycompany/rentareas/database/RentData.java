@@ -267,7 +267,26 @@ public class RentData {
             con.close();
             Tools.Prt( "Set logout Date to SQL Success.", Tools.consoleMode.max, Config.programCode );
         } catch ( SQLException e ) {
-            Tools.Prt( ChatColor.RED + "Error ChangeStatus : " + e.getMessage(), Config.programCode );
+            Tools.Prt( ChatColor.RED + "Error SetLogoutToSQL : " + e.getMessage(), Config.programCode );
+        }
+    }
+
+    /**
+     * Region から部屋の期限切れ情報を延長する
+     * 主に長期ログインが無く、且つ、部屋を保持したい場合に使用
+     *
+     * @param region
+     */
+    public static void SetExtension( String region ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            String sql = "UPDATE area SET logout = '" + Database.sdf.format( new Date() ) + "' WHERE region = '" + region + "';";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            con.close();
+            Tools.Prt( "Set Extension Date to SQL Success.", Tools.consoleMode.max, Config.programCode );
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error SetExtension : " + e.getMessage(), Config.programCode );
         }
     }
 }

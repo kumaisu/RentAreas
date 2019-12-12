@@ -15,8 +15,8 @@ import com.mycompany.rentareas.config.Config;
 import com.mycompany.rentareas.config.ConfigManager;
 import com.mycompany.rentareas.database.DataList;
 import com.mycompany.rentareas.database.RentData;
-import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.control.RentControl;
+import com.mycompany.kumaisulibraries.Tools;
 
 /**
  *
@@ -116,6 +116,9 @@ public class RentCommand implements CommandExecutor {
                 case "expired":
                     DataList.Expired( player );
                     break;
+                case "extension":
+                    RentData.SetExtension( region );
+                    break;
                 case "define":
                     if ( ( region.equals( "" ) ) || ( Tools.getUUID( username ) == null ) ) { return false; }
                     Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
@@ -132,9 +135,10 @@ public class RentCommand implements CommandExecutor {
                     Tools.Prt( player, "全部屋リスト    /rent list [page]", Config.programCode );
                     Tools.Prt( player, "入居者リスト    /rent tenant [page]", Config.programCode );
                     Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
+                    Tools.Prt( player, "期限延長        /rent extension [region]", Config.programCode );
                     Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
-                    Tools.Prt( player, "手動入居処理    /rent defne [region] [player]", Config.programCode );
-                    Tools.Prt( player, "手動退去処理    /rent undefne [region]", Config.programCode );
+                    Tools.Prt( player, "手動入居処理    /rent define [region] [player]", Config.programCode );
+                    Tools.Prt( player, "手動退去処理    /rent undefine [region]", Config.programCode );
                     Tools.Prt( player, "システム状態    /rent stauts", Config.programCode );
                     Tools.Prt( player, "設定再読込      /rent reload", Config.programCode );
                     Tools.Prt( player, "表示モード切替  /rent console [max,full,normal,stop]", Config.programCode );
