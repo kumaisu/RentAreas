@@ -5,6 +5,7 @@
  */
 package com.mycompany.rentareas.control;
 
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
@@ -13,7 +14,6 @@ import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.Config;
 import com.mycompany.rentareas.database.Database;
 import com.mycompany.rentareas.database.RentData;
-import java.util.UUID;
 
 /**
  *
@@ -24,6 +24,11 @@ public class RentControl {
     public static boolean in( Player player, String region, UUID uuid, String playerName ) {
         Tools.Prt( "Rent IN [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
 
+        if ( !player.hasPermission( "rentareas.rental" ) ) {
+            Tools.Prt( player, ChatColor.RED + playerName + " さんは借りる権限がありません", Config.programCode );
+            return false;
+        }
+        
         if ( RentData.RentCount( uuid ) >= Config.RentNum ) {
             Tools.Prt( player, ChatColor.RED + playerName + " さんはこれ以上の借入はできません", Config.programCode );
             return false;

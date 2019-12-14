@@ -58,7 +58,7 @@ public class InventoryListener implements Listener {
                     break;
                 case "END_CRYSTAL":
                     sign.setLine( 0, Database.region );
-                    sign.setLine( 1, ( Database.name.equals( "" ) ? ChatColor.BLUE + "For Rent" : ChatColor.AQUA + Database.name ) );
+                    sign.setLine( 1, ( Database.name.equals( "" ) ? ChatColor.BLUE + "For Rent" : Database.name ) );
                     sign.setLine( 3, ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" );
                     sign.update();
                     break;

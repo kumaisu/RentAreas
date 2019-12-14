@@ -1,6 +1,6 @@
 main: com.mycompany.rentareas.RentAreas
 name: RentAreas
-version: 0.3.3
+version: 0.3.4
 description: Rental WG Area Manager plugin
 author: Kumaisu
 database: true
@@ -13,6 +13,10 @@ commands:
         default: op
         permission-message: You do not have permission.
 permissions:
+    rentareas.rental:
+        description: Area Rental permission
+        default: false
+        permission-message: You do not have permission.
     rentareas.admin:
         description: Admin Command permissions
         permission-message: You do not have permission.
