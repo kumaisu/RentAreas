@@ -96,6 +96,7 @@ public class MySQLControl {
             //          z : int                 Sign Pos Z
             //          entry : DATETIME        Rent Date
             //          logout : DATETIME       player Logout Date
+            //          noexp : int             Ignore expiration
             //  存在すれば、無視される
             String sql = "CREATE TABLE IF NOT EXISTS area ( "
                     + "region varchar(20), "
@@ -106,7 +107,8 @@ public class MySQLControl {
                     + "y int, "
                     + "z int, "
                     + "entry DATETIME, "
-                    + "logout DATETIME );";
+                    + "logout DATETIME, "
+                    + "noexp int );";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.executeUpdate();

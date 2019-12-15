@@ -5,13 +5,13 @@
  */
 package com.mycompany.rentareas.database;
 
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
@@ -54,13 +54,20 @@ public class DataList {
      */
     public static void List( Player player, int mode, int page ) {
         int ClientLine = 8;
+        int PrtMode = 3;
         int lines = ( page == 0 ? 1 : ( ( page - 1 ) * ClientLine ) + 1 );
 
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
             String sql = "SELECT * FROM area ";
-            if ( mode < 0 ) { sql += "WHERE name LIKE ''"; }
-            if ( mode > 0 ) { sql += "WHERE name NOT LIKE ''"; }
+            if ( mode < 0 ) {
+                sql += "WHERE name LIKE ''";
+                PrtMode = 2;
+            }
+            if ( mode > 0 ) {
+                sql += "WHERE name NOT LIKE ''";
+                PrtMode = 2;
+            }
             sql += " ORDER BY region ASC;";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
@@ -72,7 +79,7 @@ public class DataList {
 
             while( rs.next() && ( pi < ClientLine ) ) {
                 di++;
-                if ( ( di >= lines ) || ( page == 0 ) ) { 
+                if ( ( rs.getInt( "noexp" ) < PrtMode ) && ( ( di >= lines ) || ( page == 0 ) ) ) { 
                     Tools.Prt( player, PrtLine( rs ), Config.programCode );
                     if ( page > 0 ) pi++;
                 }
@@ -114,7 +121,12 @@ public class DataList {
                     "Expired [" + Config.Expired + "日]",
                     Tools.consoleMode.max, Config.programCode
                 );
-                if ( ( Config.Expired > 0 ) && ( progress > Config.Expired ) && ( !rs.getString( "name" ).equals( "" ) ) ) {
+                if (
+                    ( rs.getInt( "noexp" ) == 0 ) &&
+                    ( Config.Expired > 0 ) &&
+                    ( progress > Config.Expired ) &&
+                    ( !rs.getString( "name" ).equals( "" ) ) 
+                ) {
                     StringData.add( PrtLine( rs ) );
                 }
             }

@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 import java.util.UUID;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.Config;
-import org.bukkit.Bukkit;
+import com.mycompany.kumaisulibraries.Tools;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -33,7 +33,7 @@ public class RentData {
      */
     public static void AddSQL( String region, Location loc ) {
         try ( Connection con = Database.dataSource.getConnection() ) {
-            String sql = "INSERT INTO area (region, uuid, name, world, x, y, z, entry, logout) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "INSERT INTO area (region, uuid, name, world, x, y, z, entry, logout, noexp ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             PreparedStatement preparedStatement = con.prepareStatement( sql );
             preparedStatement.setString( 1, region );
@@ -45,6 +45,7 @@ public class RentData {
             preparedStatement.setInt( 7, loc.getBlockZ() );
             preparedStatement.setString( 8, Database.sdf.format( new Date() ) );
             preparedStatement.setString( 9, Database.sdf.format( new Date() ) );
+            preparedStatement.setInt( 10, 0 );
             preparedStatement.executeUpdate();
             con.close();
             Tools.Prt( "Add Data to SQL Success.", Tools.consoleMode.max, Config.programCode );
@@ -65,6 +66,7 @@ public class RentData {
             rs.getInt( "x" ),
             rs.getInt( "y" ),
             rs.getInt( "z" ) );
+        Database.NoExp      = rs.getInt( "noexp" );
     }
 
     /**
@@ -214,6 +216,10 @@ public class RentData {
                 Database.world + "]",
                 Config.programCode
             );
+            Tools.Prt( player, ChatColor.YELLOW + "Expired : " + ChatColor.WHITE +
+                ( Database.NoExp == 0 ? "Expired Check" : ( Database.NoExp == 1 ) ? "Ignore Expiration" : "No display list" ),
+                Config.programCode
+            );
             Tools.Prt( player, ChatColor.GREEN + "=== EoF ===", Config.programCode );
             return true;
         } else {
@@ -287,6 +293,28 @@ public class RentData {
             Tools.Prt( "Set Extension Date to SQL Success.", Tools.consoleMode.max, Config.programCode );
         } catch ( SQLException e ) {
             Tools.Prt( ChatColor.RED + "Error SetExtension : " + e.getMessage(), Config.programCode );
+        }
+    }
+
+    /**
+     * 指定Regionの期限切れ管理フラグの設定
+     * 0 : 管理する
+     * 1 : 期限切れ管理しない
+     * 2 : リスト表示もしない
+     *
+     * @param region 
+     * @param mode 
+     */
+    public static void SetLimit( String region, int mode ) {
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            String sql = "UPDATE area SET noexp = '" + mode + "' WHERE region = '" + region + "';";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+            con.close();
+            Tools.Prt( "Set Limit Data to SQL Success.", Tools.consoleMode.max, Config.programCode );
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error SetLimit : " + e.getMessage(), Config.programCode );
         }
     }
 }

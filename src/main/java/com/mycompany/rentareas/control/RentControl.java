@@ -44,6 +44,7 @@ public class RentControl {
             Tools.Prt( ChatColor.YELLOW + "Command : " + Command, Tools.consoleMode.max, Config.programCode );
             Bukkit.getServer().dispatchCommand( Bukkit.getConsoleSender(), Command );
             RentData.SetPlayerToSQL( uuid, playerName, Database.region );
+            RentData.SetLogoutToSQL( uuid );
             Tools.Prt( player, ChatColor.GREEN + "Completed move-in", Tools.consoleMode.full, Config.programCode );
             return true;
         } else {

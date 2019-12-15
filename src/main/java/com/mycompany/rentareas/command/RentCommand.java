@@ -6,10 +6,10 @@
 package com.mycompany.rentareas.command;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import com.mycompany.rentareas.RentAreas;
 import com.mycompany.rentareas.config.Config;
 import com.mycompany.rentareas.config.ConfigManager;
@@ -128,6 +128,15 @@ public class RentCommand implements CommandExecutor {
                         RentData.SetExtension( region );
                         return info( player, region );
                     }
+                case "limit":
+                    Tools.Prt( "Command Parameter : " + args.length, Tools.consoleMode.max, Config.programCode );
+                    if ( args.length < 3 ) {
+                        Tools.Prt( player, ChatColor.RED + "パラメータが足りません", Config.programCode );
+                        return false;
+                    }
+                    getPage = getNum( player, username );
+                    RentData.SetLimit( region, getPage );
+                    return info( player, region );
                 case "define":
                     if ( ( region.equals( "" ) ) || ( Tools.getUUID( username ) == null ) ) { return false; }
                     Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
@@ -145,6 +154,7 @@ public class RentCommand implements CommandExecutor {
                     Tools.Prt( player, "入居者リスト    /rent tenant [page]", Config.programCode );
                     Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
                     Tools.Prt( player, "期限延長        /rent extension [region]", Config.programCode );
+                    Tools.Prt( player, "期限管理フラグ  /rent limit [flag(0,1,2)]", Config.programCode );
                     Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
                     Tools.Prt( player, "手動入居処理    /rent define [region] [player]", Config.programCode );
                     Tools.Prt( player, "手動退去処理    /rent undefine [region]", Config.programCode );
