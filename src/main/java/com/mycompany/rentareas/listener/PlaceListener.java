@@ -42,16 +42,8 @@ public class PlaceListener implements Listener {
         Player player = event.getPlayer();
         Material material = event.getBlock().getType();
 
-        if ( !WorldGuard.GetRegion( event.getLine( 0 ) ) ) {
-            Tools.Prt( player, ChatColor.RED + "No Registered region", Config.programCode );
-            return;
-        }
+        if ( !player.hasPermission( "rentareas.admin" ) ) { return; }
 
-        if ( RentData.GetRegion( event.getLine( 0 ) ) ) {
-            Tools.Prt( player, ChatColor.RED + "Already registered region", Config.programCode );
-            return;
-        }
-        
         Tools.Prt( ChatColor.YELLOW + "Material = " + material.name(), Tools.consoleMode.max, Config.programCode );
         for ( int i = 0; i < 4; i++ ) {
             Tools.Prt( ChatColor.YELLOW + "Old Sign " + i + " : " + event.getLine( i ), Tools.consoleMode.max, Config.programCode );
@@ -59,6 +51,14 @@ public class PlaceListener implements Listener {
 
         Tools.Prt( event.getLine( 3 ) + " : " + Config.SignSetKey, Tools.consoleMode.max, Config.programCode );
         if ( event.getLine( 3 ).equals( Config.SignSetKey ) ) {
+            if ( !WorldGuard.GetRegion( event.getLine( 0 ) ) ) {
+                Tools.Prt( player, ChatColor.RED + "No Registered region", Config.programCode );
+                return;
+            }
+            if ( RentData.GetRegion( event.getLine( 0 ) ) ) {
+                Tools.Prt( player, ChatColor.RED + "Already registered region", Config.programCode );
+                return;
+            }
             //  event.setLine( 0, "WorldGuard Region name" );         
             event.setLine( 1, ChatColor.BLUE + "for Rent" );         //  Rental Player name area
             //  event.setLine( 2, "Free Message Area" );

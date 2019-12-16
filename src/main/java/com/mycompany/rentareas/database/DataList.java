@@ -24,22 +24,25 @@ import com.mycompany.rentareas.config.Config;
  */
 public class DataList {
 
-    public static String PrtLine( ResultSet rs ) throws SQLException {
+    public static String PrtLine( ResultSet rs, boolean mode ) throws SQLException {
         Date entryDate = rs.getTimestamp( "logout" );
         int progress = Utility.dateDiff( entryDate, new Date() );
         return
             ChatColor.WHITE + rs.getString( "region" ) + " : " +
+            ( mode ? 
+                ChatColor.WHITE + 
+                    String.format( "%5d", rs.getInt( "x" ) ) + "," +
+                    String.format( "%5d", rs.getInt( "y" ) ) + "," +
+                    String.format( "%5d", rs.getInt( "z" ) ) + " { " +
+                    rs.getString( "world" ) + " }"
+                :
                 ChatColor.GOLD + String.format( "%3d", progress ) + "日" +
-            ( rs.getString( "name" ).equals( "" ) ?
-                ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "] " + ChatColor.LIGHT_PURPLE + "For Rent" :
-                ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "] " + ChatColor.AQUA + rs.getString( "name" ) );
-        /*
-            ChatColor.WHITE + 
-                String.format( " %d", rs.getInt( "x" ) ) + "," +
-                String.format( "%d", rs.getInt( "y" ) ) + "," +
-                String.format( "%d", rs.getInt( "z" ) ) + "{" +
-                rs.getString( "world" ) + "}";
-        */
+                ( rs.getString( "name" ).equals( "" ) ?
+                    ChatColor.GREEN + " [" + Database.sdf.format( rs.getTimestamp( "entry" ) ) + "] " + ChatColor.LIGHT_PURPLE + "For Rent"
+                :
+                    ChatColor.YELLOW + " [" + Database.sdf.format( rs.getTimestamp( "logout" ) ) + "] " + ChatColor.AQUA + rs.getString( "name" )
+                )
+            );
     }
 
     /**
@@ -60,11 +63,14 @@ public class DataList {
         try ( Connection con = Database.dataSource.getConnection() ) {
             Statement stmt = con.createStatement();
             String sql = "SELECT * FROM area ";
+            String title = "全部屋リスト（保護名,日数,更新日,Player）";
             if ( mode < 0 ) {
+                title = "空き部屋リスト（保護名,場所[x,y,z,world]）";
                 sql += "WHERE name LIKE ''";
                 PrtMode = 2;
             }
             if ( mode > 0 ) {
+                title = "入居者リスト（保護名,日数,更新日,Player）";
                 sql += "WHERE name NOT LIKE ''";
                 PrtMode = 2;
             }
@@ -72,7 +78,7 @@ public class DataList {
             Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
             ResultSet rs = stmt.executeQuery( sql );
 
-            Tools.Prt( player, "借用者一覧リスト（保護名,日数,Player,更新日,場所）", Config.programCode );
+            Tools.Prt( player, title, Config.programCode );
 
             int pi = 0;
             int di = 0;
@@ -80,7 +86,7 @@ public class DataList {
             while( rs.next() && ( pi < ClientLine ) ) {
                 di++;
                 if ( ( rs.getInt( "noexp" ) < PrtMode ) && ( ( di >= lines ) || ( page == 0 ) ) ) { 
-                    Tools.Prt( player, PrtLine( rs ), Config.programCode );
+                    Tools.Prt( player, PrtLine( rs, ( mode < 0 ) ), Config.programCode );
                     if ( page > 0 ) pi++;
                 }
             }
@@ -127,7 +133,7 @@ public class DataList {
                     ( progress > Config.Expired ) &&
                     ( !rs.getString( "name" ).equals( "" ) ) 
                 ) {
-                    StringData.add( PrtLine( rs ) );
+                    StringData.add( PrtLine( rs, false ) );
                 }
             }
             con.close();
