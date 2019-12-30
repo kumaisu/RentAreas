@@ -12,6 +12,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.rentareas.config.Config;
+import com.mycompany.rentareas.database.DataList;
 import com.mycompany.rentareas.database.Database;
 import com.mycompany.rentareas.database.RentData;
 
@@ -31,6 +32,7 @@ public class RentControl {
         
         if ( RentData.RentCount( uuid ) >= Config.RentNum ) {
             Tools.Prt( player, ChatColor.RED + playerName + " さんはこれ以上の借入はできません", Config.programCode );
+            DataList.ListPlayer( player, player.getUniqueId(), player.getName() );
             return false;
         }
         

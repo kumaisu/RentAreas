@@ -5,6 +5,7 @@
  */
 package com.mycompany.rentareas.database;
 
+import java.util.UUID;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import com.mycompany.kumaisulibraries.Tools;
 import com.mycompany.kumaisulibraries.Utility;
 import com.mycompany.rentareas.config.Config;
+import org.bukkit.Bukkit;
 
 /**
  *
@@ -147,4 +149,29 @@ public class DataList {
         }
     }
 
+    /**
+     * プレイヤーの持ち物件を一覧表示する
+     *
+     * @param player
+     * @param uuid
+     * @param name
+     */
+    public static void ListPlayer( Player player, UUID uuid, String name ) {
+        if ( uuid == null ) { return; }
+        try ( Connection con = Database.dataSource.getConnection() ) {
+            Statement stmt = con.createStatement();
+            String sql = "SELECT * FROM area WHERE uuid = '" + uuid.toString() + "' ORDER BY region ASC;";
+            String title = name + " さんの部屋リスト（部屋番号,場所[x,y,z,world]）";
+            Tools.Prt( "SQL : " + sql, Tools.consoleMode.max, Config.programCode );
+            ResultSet rs = stmt.executeQuery( sql );
+            Tools.Prt( player, title, Config.programCode );
+
+            while( rs.next() ) {
+                Tools.Prt( player, PrtLine( rs, true ), Config.programCode );
+            }
+            con.close();
+        } catch ( SQLException e ) {
+            Tools.Prt( ChatColor.RED + "Error ListPlayer : " + e.getMessage(), Config.programCode );
+        }
+    }
 }
