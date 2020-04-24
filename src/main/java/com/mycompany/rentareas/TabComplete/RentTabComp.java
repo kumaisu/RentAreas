@@ -80,10 +80,10 @@ public class RentTabComp implements TabCompleter {
                 }
                 break;
             case 3:
-                if ( ( player != null ) && ( args[1].equals( "define" ) ) ) {
+                if ( ( player != null ) && ( args[0].equals( "define" ) ) ) {
                     list.add( player.getName() );
                 }
-                if ( args[1].equals( "limit" ) ) {
+                if ( args[0].equals( "limit" ) ) {
                     list.add( "0" );
                     list.add( "1" );
                     list.add( "2" );
