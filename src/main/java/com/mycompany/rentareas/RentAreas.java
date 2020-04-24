@@ -17,6 +17,8 @@ import com.mycompany.rentareas.listener.ClickListener;
 import com.mycompany.rentareas.listener.PlaceListener;
 import com.mycompany.rentareas.listener.InventoryListener;
 import com.mycompany.rentareas.listener.PlayerListener;
+import com.mycompany.rentareas.TabComplete.RentTabComp;
+import com.mycompany.rentareas.TabComplete.FreeTabComp;
 
 /**
  *
@@ -36,6 +38,8 @@ public class RentAreas extends JavaPlugin {
         new PlayerListener( this );
         getCommand( "rent" ).setExecutor( new RentCommand( this ) );
         getCommand( "freerent" ).setExecutor( new FreeRentCommand( this ) );
+        getCommand( "rent" ).setTabCompleter( new RentTabComp() );
+        getCommand( "freerent" ).setTabCompleter( new FreeTabComp() );
         InvMenu.inv = new HashMap<>();
         InvMenu.reg = new HashMap<>();
     }
@@ -43,7 +47,7 @@ public class RentAreas extends JavaPlugin {
     @Override
     public void onDisable() {
         super.onDisable(); //To change body of generated methods, choose Tools | Templates.
-        MySQLControl.disconnect();
+        //  MySQLControl.disconnect();
     }
 
     @Override

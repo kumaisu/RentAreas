@@ -56,7 +56,7 @@ public class ClickListener implements Listener {
             ChatColor.WHITE + "] : [" +
             ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" +
             ChatColor.WHITE + "]",
-            Tools.consoleMode.max, Config.programCode
+            Tools.consoleMode.full, Config.programCode
         );
         if ( sign.getLine( 3 ).equals( ChatColor.GOLD + "[" + ChatColor.AQUA + Config.SignSetKey + ChatColor.GOLD + "]" ) ) {
             event.setCancelled( true );

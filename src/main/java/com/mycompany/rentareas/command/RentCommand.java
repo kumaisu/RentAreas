@@ -159,7 +159,7 @@ public class RentCommand implements CommandExecutor {
                     Tools.Prt( player, "入居者リスト    /rent tenant [page]", Config.programCode );
                     Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
                     Tools.Prt( player, "期限延長        /rent extension [region]", Config.programCode );
-                    Tools.Prt( player, "期限管理フラグ  /rent limit [flag(0,1,2)]", Config.programCode );
+                    Tools.Prt( player, "期限管理フラグ  /rent limit [region] [flag(0,1,2)]", Config.programCode );
                     Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
                     Tools.Prt( player, "手動入居処理    /rent define [region] [player]", Config.programCode );
                     Tools.Prt( player, "手動退去処理    /rent undefine [region]", Config.programCode );

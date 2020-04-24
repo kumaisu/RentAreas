@@ -66,7 +66,7 @@ public class PlaceListener implements Listener {
             RentData.AddSQL( event.getLine( 0 ), event.getBlock().getLocation() );
             RentData.RegionInfo( player, event.getLine( 0 ) );
         } else {
-            Tools.Prt( ChatColor.GOLD + "No Sign set KEY", Config.programCode );
+            Tools.Prt( ChatColor.GOLD + "No Sign set KEY", Tools.consoleMode.full, Config.programCode );
         }
     }
 }
