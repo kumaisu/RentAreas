@@ -48,12 +48,10 @@ public class FreeRentCommand implements CommandExecutor {
                 DataList.ListPlayer( player, player.getUniqueId(), player.getName() );
                 return true;
             }
-        }
 
-        if ( args.length > 0 ) {
             try {
                 getPage = Integer.parseInt( args[1] );
-            } catch ( NumberFormatException e ) {
+            } catch ( Exception e ) {
                 Tools.Prt( player, ChatColor.RED + "数値を入力してください", Config.programCode );
             }
         }

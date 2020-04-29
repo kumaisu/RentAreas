@@ -77,7 +77,7 @@ public class RentCommand implements CommandExecutor {
         if ( args.length > 0 ) {
             switch( args[0].toLowerCase() ) {
                 case "reload":
-                    if ( player == null ? true : player.hasPermission("rentareas.console" ) ) {
+                    if ( player == null ? true : player.hasPermission( "rentareas.console" ) ) {
                         ConfigManager.load();
                         Tools.Prt( player, ( "Rental Areas Config Reloaded." ), Config.programCode );
                     } else {
@@ -85,7 +85,7 @@ public class RentCommand implements CommandExecutor {
                     }
                     break;
                 case "console":
-                    if ( player == null || player.hasPermission("rentareas.console" ) ) {
+                    if ( player == null || player.hasPermission( "rentareas.console" ) ) {
                         if ( !Tools.setDebug( args[1], Config.programCode ) ) {
                             Tools.entryDebugFlag( Config.programCode, Tools.consoleMode.normal );
                             Tools.Prt( player, ChatColor.RED + "Config Debugモードの指定値が不正なので、normal設定にしました", Config.programCode );

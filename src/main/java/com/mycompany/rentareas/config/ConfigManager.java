@@ -65,20 +65,16 @@ public class ConfigManager {
     public static void Status( Player p ) {
         Tools.Prt( p, ChatColor.GREEN + "=== RentAreas Status ===", programCode );
         Tools.Prt( p, ChatColor.WHITE + "Degub Mode   : " + ChatColor.YELLOW + Tools.consoleFlag.get( programCode ).toString(), programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Mysql        : " + ChatColor.YELLOW + Config.host + ":" + Config.port, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "DB Name      : " + ChatColor.YELLOW + Config.database, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Mysql        : " + ChatColor.YELLOW + Config.host + ":" + Config.port + "/" + Config.database, programCode );
         Tools.Prt( p, ChatColor.WHITE + "WG DB Name   : " + ChatColor.YELLOW + Config.worldguard, programCode );
         if ( ( p == null ) || p.hasPermission( "rentareas.console" ) ) {
-            Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username, programCode );
-            Tools.Prt( p, ChatColor.WHITE + "DB Password  : " + ChatColor.YELLOW + Config.password, programCode );
+            Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username + "[" + Config.password + "]", programCode );
         }
         Tools.Prt( p, ChatColor.WHITE + "Sign Set Key : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Warning      : " + ChatColor.YELLOW + ( Config.Warning ? "Notification" : "Unannounced" ), programCode );
         Tools.Prt( p, ChatColor.WHITE + "Menu String  : " + ChatColor.YELLOW + Config.MenuString, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Rental IN    : " + ChatColor.YELLOW + Config.RentIn, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Rental Out   : " + ChatColor.YELLOW + Config.RentOut, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Expired      : " + ChatColor.YELLOW + Config.Expired + " days", programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Rent Max     : " + ChatColor.YELLOW + Config.RentNum, programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Rental : IN[ " + ChatColor.YELLOW + Config.RentIn + ChatColor.WHITE + "] Out[" + ChatColor.YELLOW + Config.RentOut + ChatColor.WHITE + "]", programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Expired : " + ChatColor.YELLOW + Config.Expired + " days" + ChatColor.WHITE + "Rent Max(" + ChatColor.YELLOW + Config.RentNum + ChatColor.WHITE + ")", programCode );
         Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
     }
 }
