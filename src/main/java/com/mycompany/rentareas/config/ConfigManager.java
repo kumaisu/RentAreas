@@ -68,13 +68,13 @@ public class ConfigManager {
         Tools.Prt( p, ChatColor.WHITE + "Mysql        : " + ChatColor.YELLOW + Config.host + ":" + Config.port + "/" + Config.database, programCode );
         Tools.Prt( p, ChatColor.WHITE + "WG DB Name   : " + ChatColor.YELLOW + Config.worldguard, programCode );
         if ( ( p == null ) || p.hasPermission( "rentareas.console" ) ) {
-            Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username + "[" + Config.password + "]", programCode );
+            Tools.Prt( p, ChatColor.WHITE + "DB UserName  : " + ChatColor.YELLOW + Config.username + " [" + Config.password + "]", programCode );
         }
         Tools.Prt( p, ChatColor.WHITE + "Sign Set Key : " + ChatColor.YELLOW + Config.SignSetKey, programCode );
         Tools.Prt( p, ChatColor.WHITE + "Warning      : " + ChatColor.YELLOW + ( Config.Warning ? "Notification" : "Unannounced" ), programCode );
         Tools.Prt( p, ChatColor.WHITE + "Menu String  : " + ChatColor.YELLOW + Config.MenuString, programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Rental : IN[ " + ChatColor.YELLOW + Config.RentIn + ChatColor.WHITE + "] Out[" + ChatColor.YELLOW + Config.RentOut + ChatColor.WHITE + "]", programCode );
-        Tools.Prt( p, ChatColor.WHITE + "Expired : " + ChatColor.YELLOW + Config.Expired + " days" + ChatColor.WHITE + "Rent Max(" + ChatColor.YELLOW + Config.RentNum + ChatColor.WHITE + ")", programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Rental : IN[" + ChatColor.YELLOW + Config.RentIn + ChatColor.WHITE + "] Out[" + ChatColor.YELLOW + Config.RentOut + ChatColor.WHITE + "]", programCode );
+        Tools.Prt( p, ChatColor.WHITE + "Expired : " + ChatColor.YELLOW + Config.Expired + " days" + ChatColor.WHITE + " Rent Max " + ChatColor.YELLOW + Config.RentNum + ChatColor.WHITE + " rooms", programCode );
         Tools.Prt( p, ChatColor.GREEN + "==========================", programCode );
     }
 }
