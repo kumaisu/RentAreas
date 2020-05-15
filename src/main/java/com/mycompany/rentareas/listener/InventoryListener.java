@@ -66,7 +66,6 @@ public class InventoryListener implements Listener {
                     RentControl.in( player, InvMenu.reg.get( player.getUniqueId() ) );
                     break;
                 case "RED_WOOL":
-                    Tools.Prt( player, "Rent OUT [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
                     RentControl.out( player, InvMenu.reg.get( player.getUniqueId() ) );
                     break;
                 case "WOOL":    // 1.12.2 対応

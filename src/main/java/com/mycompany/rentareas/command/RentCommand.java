@@ -152,27 +152,27 @@ public class RentCommand implements CommandExecutor {
                         DataList.ListPlayer( player, Tools.getUUID( region ), region );
                     } else { Tools.Prt( ChatColor.RED + "プレイヤーを指名してください", Config.programCode ); }
                     break;
-                case "help":
-                    Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
-                    Tools.Prt( player, "空室リスト      /rent vacancy [page]", Config.programCode );
-                    Tools.Prt( player, "全部屋リスト    /rent list [page]", Config.programCode );
-                    Tools.Prt( player, "入居者リスト    /rent tenant [page]", Config.programCode );
-                    Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
-                    Tools.Prt( player, "期限延長        /rent extension [region]", Config.programCode );
-                    Tools.Prt( player, "期限管理フラグ  /rent limit [region] [flag(0,1,2)]", Config.programCode );
-                    Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
-                    Tools.Prt( player, "手動入居処理    /rent define [region] [player]", Config.programCode );
-                    Tools.Prt( player, "手動退去処理    /rent undefine [region]", Config.programCode );
-                    Tools.Prt( player, "入居一覧(個人)  /rent search [player]", Config.programCode );
-                    Tools.Prt( player, "システム状態    /rent stauts", Config.programCode );
-                    Tools.Prt( player, "設定再読込      /rent reload", Config.programCode );
-                    Tools.Prt( player, "表示モード切替  /rent console [max,full,normal,stop]", Config.programCode );
-                    break;
                 default:
                     Tools.Prt( player, ChatColor.RED + "Unknown Command [" + args[0] + "]", Config.programCode );
                     return false;
             }
         }
+
+        Tools.Prt( player, "=== Rental Areas Command Help ===", Config.programCode );
+        Tools.Prt( player, "空室リスト      /rent vacancy [page]", Config.programCode );
+        Tools.Prt( player, "全部屋リスト    /rent list [page]", Config.programCode );
+        Tools.Prt( player, "入居者リスト    /rent tenant [page]", Config.programCode );
+        Tools.Prt( player, "期限切れリスト  /rent expired", Config.programCode );
+        Tools.Prt( player, "期限延長        /rent extension [region]", Config.programCode );
+        Tools.Prt( player, "期限管理フラグ  /rent limit [region] [flag(0,1,2)]", Config.programCode );
+        Tools.Prt( player, "部屋情報        /rent info [region]", Config.programCode );
+        Tools.Prt( player, "手動入居処理    /rent define [region] [player]", Config.programCode );
+        Tools.Prt( player, "手動退去処理    /rent undefine [region]", Config.programCode );
+        Tools.Prt( player, "入居一覧(個人)  /rent search [player]", Config.programCode );
+        Tools.Prt( player, "システム状態    /rent stauts", Config.programCode );
+        Tools.Prt( player, "設定再読込      /rent reload", Config.programCode );
+        Tools.Prt( player, "表示モード切替  /rent console [max,full,normal,stop]", Config.programCode );
+
         return true;
     }
 }

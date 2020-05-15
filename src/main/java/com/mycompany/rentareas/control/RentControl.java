@@ -26,12 +26,12 @@ public class RentControl {
         Tools.Prt( "Rent IN [" + Database.region + "]", Tools.consoleMode.full, Config.programCode );
 
         if ( !player.hasPermission( "rentareas.rental" ) ) {
-            Tools.Prt( player, ChatColor.RED + playerName + " さんは借りる権限がありません", Config.programCode );
+            Tools.Prt( player, ChatColor.RED + playerName + " さんは借りる権限がありません", Tools.consoleMode.full, Config.programCode );
             return false;
         }
         
         if ( RentData.RentCount( uuid ) >= Config.RentNum ) {
-            Tools.Prt( player, ChatColor.RED + playerName + " さんはこれ以上の借入はできません", Config.programCode );
+            Tools.Prt( player, ChatColor.RED + playerName + " さんはこれ以上の借入はできません", Tools.consoleMode.full, Config.programCode );
             DataList.ListPlayer( player, player.getUniqueId(), player.getName() );
             return false;
         }
@@ -59,7 +59,7 @@ public class RentControl {
     }
 
     public static boolean out( Player player, String region ) {
-        Tools.Prt( "Rent OUT", Tools.consoleMode.full, Config.programCode );
+        Tools.Prt( player, "Rent OUT [" + region + "]", Tools.consoleMode.full, Config.programCode );
         RentData.GetRegion( region );
         Sign sign = ( Sign ) Database.Position.getBlock().getState();
         if ( Database.name.equals( player.getName() ) || player.hasPermission( "rentareas.admin" ) ) {

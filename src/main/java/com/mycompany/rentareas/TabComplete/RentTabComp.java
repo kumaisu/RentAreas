@@ -50,7 +50,6 @@ public class RentTabComp implements TabCompleter {
                 list.add( "define" );
                 list.add( "undefine" );
                 list.add( "search" );
-                list.add( "help" );
                 break;
             case 2:
                 switch ( args[0] ) {
