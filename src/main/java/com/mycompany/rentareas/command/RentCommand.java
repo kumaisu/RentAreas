@@ -80,6 +80,7 @@ public class RentCommand implements CommandExecutor {
                     if ( player == null ? true : player.hasPermission( "rentareas.console" ) ) {
                         ConfigManager.load();
                         Tools.Prt( player, ( "Rental Areas Config Reloaded." ), Config.programCode );
+                        return true;
                     } else {
                         Tools.Prt( player, ChatColor.RED + "Console commands cannot be used", Tools.consoleMode.max, Config.programCode );
                     }
@@ -99,62 +100,66 @@ public class RentCommand implements CommandExecutor {
                         ChatColor.GREEN + " ]",
                         Config.programCode
                     );
-                    break;
+                    return true;
                 case "status":
                     ConfigManager.Status( player );
-                    break;
+                    return true;
                 case "vacancy":
                     getPage = getNum( player, region );
                     DataList.List( player, -1, getPage );
-                    break;
+                    return true;
                 case "list":
                     getPage = getNum( player, region );
                     DataList.List( player, 0, getPage );
-                    break;
+                    return true;
                 case "tenant":
                     getPage = getNum( player, region );
                     DataList.List( player, 1, getPage );
-                    break;
+                    return true;
                 case "info":
                     return info( player, region );
                 case "expired":
                     DataList.Expired( player );
-                    break;
+                    return true;
                 case "extension":
                     if ( region.equals( "" ) ) {
                         Tools.Prt( player, ChatColor.RED + "Regionを指定してください", Config.programCode );
-                        return false;
-                    } else {
-                        RentData.SetExtension( region );
-                        return info( player, region );
+                        break;
                     }
+                    RentData.SetExtension( region );
+                    return info( player, region );
                 case "limit":
                     Tools.Prt( "Command Parameter : " + args.length, Tools.consoleMode.max, Config.programCode );
                     if ( args.length < 3 ) {
                         Tools.Prt( player, ChatColor.RED + "パラメータが足りません", Config.programCode );
-                        return false;
+                        break;
                     }
                     getPage = getNum( player, username );
                     RentData.SetLimit( region, getPage );
                     return info( player, region );
                 case "define":
-                    if ( ( region.equals( "" ) ) || ( Tools.getUUID( username ) == null ) ) { return false; }
-                    Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
-                    RentControl.in( player, region, Tools.getUUID( username ), username );
-                    return info( player, region );
+                    if ( ( !region.equals( "" ) ) && ( Tools.getUUID( username ) != null ) ) {
+                        Tools.Prt( player, "Manual Rent IN [" + region + "] " + username, Tools.consoleMode.full, Config.programCode );
+                        RentControl.in( player, region, Tools.getUUID( username ), username );
+                        return info( player, region );
+                    }
+                    break;
                 case "undefine":
-                    if ( region.equals( "" ) ) { return false; }
-                    Tools.Prt( player, "Manual Rent Out [" + region + "]", Tools.consoleMode.full, Config.programCode );
-                    RentControl.out( player, region );
-                    return info( player, region );
+                    if ( !region.equals( "" ) ) {
+                        Tools.Prt( player, "Manual Rent Out [" + region + "]", Tools.consoleMode.full, Config.programCode );
+                        RentControl.out( player, region );
+                        return info( player, region );
+                    }
+                    break;
                 case "search" :
                     if ( !region.equals( "" ) && ( Tools.getUUID( region ) != null ) ) {
                         DataList.ListPlayer( player, Tools.getUUID( region ), region );
-                    } else { Tools.Prt( ChatColor.RED + "プレイヤーを指名してください", Config.programCode ); }
+                        return true;
+                    }
+                    Tools.Prt( ChatColor.RED + "プレイヤーを指名してください", Config.programCode );
                     break;
                 default:
                     Tools.Prt( player, ChatColor.RED + "Unknown Command [" + args[0] + "]", Config.programCode );
-                    return false;
             }
         }
 
@@ -173,6 +178,6 @@ public class RentCommand implements CommandExecutor {
         Tools.Prt( player, "設定再読込      /rent reload", Config.programCode );
         Tools.Prt( player, "表示モード切替  /rent console [max,full,normal,stop]", Config.programCode );
 
-        return true;
+        return false;
     }
 }

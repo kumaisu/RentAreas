@@ -53,6 +53,7 @@ public class FreeRentCommand implements CommandExecutor {
                 getPage = Integer.parseInt( args[1] );
             } catch ( Exception e ) {
                 Tools.Prt( player, ChatColor.RED + "数値を入力してください", Config.programCode );
+                return false;
             }
         }
         DataList.List( player, -1, getPage );
