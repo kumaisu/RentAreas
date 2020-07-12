@@ -67,7 +67,7 @@ public class RentCommand implements CommandExecutor {
             return false;
         }
 
-        String region = "";
+        String region = "0";
         String username = "";
         int getPage;
 
