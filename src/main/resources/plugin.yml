@@ -1,6 +1,6 @@
 main: com.mycompany.rentareas.RentAreas
 name: RentAreas
-version: 0.4.8
+version: 0.4.9
 description: Rental WG Area Manager plugin
 author: Kumaisu
 database: true
